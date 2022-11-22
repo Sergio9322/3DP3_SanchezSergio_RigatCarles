@@ -11,6 +11,10 @@ public class MarioController : MonoBehaviour
     [SerializeField] float walkSpeed;
     [SerializeField] float runSpeed;
     [SerializeField] float jumpSpeed;
+    [SerializeField] int maxJumps;
+    [SerializeField] Transform feet;
+    [SerializeField] LayerMask groundMask;
+    public int jumpCounter=0;
     float verticalSpeed = 0.0f;
     bool onGround = false;
     bool touchingCeiling = false;
@@ -44,9 +48,11 @@ public class MarioController : MonoBehaviour
         if (Input.GetKey(leftKey))
             movement -= right;
 
-        if (Input.GetKey(jumpKey) && onGround)
+        if (Input.GetKeyDown(jumpKey) && jumpCounter < maxJumps)
         {
             verticalSpeed = jumpSpeed;
+            Debug.Log("Entra");
+            jumpCounter++;
         }
 
         if (movement.magnitude > 0.0f)
@@ -55,8 +61,11 @@ public class MarioController : MonoBehaviour
             movement = movement.normalized* currentSpeed* Time.deltaTime;
             transform.forward = movement;
         }
-        animator.SetFloat("speed",movement.magnitude);
-        
+        animator.SetFloat("speed", movement.magnitude);
+        animator.SetInteger("jumpCounter", jumpCounter);
+        animator.SetFloat("verticalSpeed", verticalSpeed);
+        //Debug.Log(movement.magnitude);
+        animator.SetBool("onGround", onGround);
         
         //Apply gravity to verticalSpeed
         verticalSpeed += Physics.gravity.y * Time.deltaTime;
@@ -70,7 +79,21 @@ public class MarioController : MonoBehaviour
         onGround = (flags & CollisionFlags.Below) != 0;
         touchingCeiling = (flags & CollisionFlags.Above) != 0;
 
-        if (onGround) verticalSpeed = 0.0f;
+        /*
+        RaycastHit l_RaycastHit;
+        Ray l_Ray = new Ray(feet.position, feet.forward);
+        if (Physics.Raycast(l_Ray, out l_RaycastHit, 0f, groundMask))
+        {
+            onGround = true;
+            Debug.Log("Tocas suelo, no?");
+        }
+        */
+        if (onGround)
+        {
+            //Debug.Log("Grounded");
+            verticalSpeed = 0.0f;
+            jumpCounter = 0;
+        }
         if (touchingCeiling && verticalSpeed > 0.0f) verticalSpeed = 0.0f;
 
         

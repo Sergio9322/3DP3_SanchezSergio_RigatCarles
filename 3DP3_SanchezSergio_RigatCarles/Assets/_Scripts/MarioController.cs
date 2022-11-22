@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class MarioController : MonoBehaviour
 {
     [SerializeField] Camera cam;
@@ -25,6 +26,9 @@ public class MarioController : MonoBehaviour
     [SerializeField] KeyCode leftKey;
     [SerializeField] KeyCode runKey;
     [SerializeField] KeyCode jumpKey;
+
+    [Header("Audio")]
+    [SerializeField] AudioSource audioSource;
 
 
     void Update()
@@ -51,8 +55,8 @@ public class MarioController : MonoBehaviour
         if (Input.GetKeyDown(jumpKey) && jumpCounter < maxJumps)
         {
             verticalSpeed = jumpSpeed;
-            Debug.Log("Entra");
             jumpCounter++;
+            
         }
 
         if (movement.magnitude > 0.0f)
@@ -96,6 +100,9 @@ public class MarioController : MonoBehaviour
         }
         if (touchingCeiling && verticalSpeed > 0.0f) verticalSpeed = 0.0f;
 
-        
     }
+
+
+
+
 }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StepEventConsumer : MonoBehaviour
+public class AnimatorEventConsumer : MonoBehaviour
 {
 
     [Header("Audio")]
@@ -48,6 +48,24 @@ public class StepEventConsumer : MonoBehaviour
         audioSource.PlayOneShot(chosen);
     }
     void walk()
+    {
+
+    }
+
+    void PunchSound1(AnimationEvent _AnimationEvent)
+    {
+
+    }
+    void PunchSound2(AnimationEvent _AnimationEvent)
+    {
+
+
+    }
+    void PunchSound3(AnimationEvent _AnimationEvent)
+    {
+
+    }
+    void FinishPunch(AnimationEvent _AnimationEvent)
     {
 
     }

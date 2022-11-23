@@ -890,7 +890,7 @@ GameObject:
   - component: {fileID: 1133590750}
   m_Layer: 6
   m_Name: Physics
-  m_TagString: Untagged
+  m_TagString: Bridge
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1356,6 +1356,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   jumpCounter: 0
+  m_BridgeForce: 3
   fwKey: 119
   backKey: 115
   rightKey: 100

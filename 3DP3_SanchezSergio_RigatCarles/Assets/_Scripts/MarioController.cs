@@ -27,6 +27,7 @@ public class MarioController : MonoBehaviour
     float verticalSpeed = 0.0f;
     bool onGround = false;
     bool touchingCeiling = false;
+    public float m_BridgeForce;
 
     [SerializeField] KeyCode fwKey;
     [SerializeField] KeyCode backKey;
@@ -184,6 +185,15 @@ public class MarioController : MonoBehaviour
 
     }
 
+
+    public void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if (hit.collider.tag == "Bridge")
+        {
+            Rigidbody l_Bridge = hit.collider.GetComponent<Rigidbody>();
+            l_Bridge.AddForceAtPosition(-hit.normal * m_BridgeForce, hit.point);
+        }
+    }
 
 
 

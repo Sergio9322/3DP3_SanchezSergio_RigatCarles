@@ -5,6 +5,14 @@ using UnityEngine;
 
 public class MarioController : MonoBehaviour
 {
+    public enum TPunchType
+    {
+        RIGHT_HAND,
+        LEFT_HAND,
+        KICK
+    }
+
+    
     [SerializeField] Camera cam;
     [SerializeField] CharacterController charController;
     [SerializeField] Animator animator;
@@ -30,9 +38,83 @@ public class MarioController : MonoBehaviour
     [Header("Audio")]
     [SerializeField] AudioSource audioSource;
 
+    [Header("Colliders")]
+    public Collider m_LeftHandCollider;
+    public Collider m_RightHandCollider;
+    public Collider m_KickCollider;
+
+    [Header("Punch")]
+    TPunchType m_CurrentPunch = TPunchType.RIGHT_HAND;
+    float m_CurrentPunchTime;
+    public float m_PunchComboTime = 0.25f;
+    bool m_PunchActive = false;
+
+    private void Start()
+    {
+        m_CurrentPunchTime = -m_PunchComboTime;
+        m_LeftHandCollider.gameObject.SetActive(false);
+        m_RightHandCollider.gameObject.SetActive(false);
+        m_KickCollider.gameObject.SetActive(false);
+    }
+
+    public void HitPunch(TPunchType PunchType,bool Active)
+    {
+        if (PunchType == TPunchType.LEFT_HAND)
+            m_LeftHandCollider.gameObject.SetActive(Active);
+        else if(PunchType == TPunchType.RIGHT_HAND)
+            m_RightHandCollider.gameObject.SetActive(Active);
+        else if(PunchType == TPunchType.KICK)
+            m_KickCollider.gameObject.SetActive(Active);
+    }
+    bool CanPunch()
+    {
+        return !m_PunchActive;
+    }
+    public void SetPunchActive(bool PunchActive)
+    {
+        m_PunchActive = PunchActive;
+    }
+
+    bool MustStartComboPunch()
+    {
+        return (Time.time - m_CurrentPunchTime) > m_PunchComboTime;
+    }
+    void NextComboPunch()
+    {
+        if (m_CurrentPunch == TPunchType.RIGHT_HAND)
+            SetComboPunch(TPunchType.LEFT_HAND);
+        else if (m_CurrentPunch == TPunchType.LEFT_HAND)
+            SetComboPunch(TPunchType.KICK);
+        else if (m_CurrentPunch == TPunchType.KICK)
+            SetComboPunch(TPunchType.RIGHT_HAND);
+    }
+
+    void SetComboPunch(TPunchType PunchType)
+    {
+        m_CurrentPunch = PunchType;
+        if (PunchType == TPunchType.RIGHT_HAND)
+            animator.SetTrigger("Punch1");
+        else if (PunchType == TPunchType.LEFT_HAND)
+            animator.SetTrigger("Punch2");
+        else if (PunchType == TPunchType.KICK)
+            animator.SetTrigger("Punch3");
+        m_CurrentPunchTime = Time.time;
+        m_PunchActive = true;
+    }
+
 
     void Update()
     {
+        if(Input.GetMouseButtonDown(0) && CanPunch())
+        {
+            if (MustStartComboPunch())
+            {
+                SetComboPunch(TPunchType.RIGHT_HAND);
+            }
+            else
+                NextComboPunch();
+        }
+
 
         //Check Input
         //Movement: CameraDir, Input, Speed, deltaTime
@@ -101,6 +183,8 @@ public class MarioController : MonoBehaviour
         if (touchingCeiling && verticalSpeed > 0.0f) verticalSpeed = 0.0f;
 
     }
+
+
 
 
 

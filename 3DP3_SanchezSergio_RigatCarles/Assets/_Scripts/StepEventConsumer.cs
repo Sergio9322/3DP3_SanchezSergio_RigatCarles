@@ -47,4 +47,8 @@ public class StepEventConsumer : MonoBehaviour
         }
         audioSource.PlayOneShot(chosen);
     }
+    void walk()
+    {
+
+    }
 }

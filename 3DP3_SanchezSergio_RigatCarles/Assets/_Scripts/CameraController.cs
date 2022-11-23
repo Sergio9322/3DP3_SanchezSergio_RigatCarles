@@ -13,11 +13,23 @@ public class CameraController : MonoBehaviour
 	public KeyCode m_DebugLockKeyCode=KeyCode.O;
 	bool m_AngleLocked=false;
 	bool m_CursorLocked=true;
-	[SerializeField] LayerMask layerMask;
-	[SerializeField] float offsetCollision;
 
 	[SerializeField] float minCamDist= 5;
 	[SerializeField] float maxCamDist = 10;
+
+
+	[Header("Collision")]
+	[SerializeField] LayerMask layerMask;
+	[SerializeField] float offsetCollision;
+
+
+	[SerializeField] List<float> rightAngles = new List<float>();
+	[SerializeField] List<float> leftAngles = new List<float>();
+	[SerializeField] float otherAngleWeight = 0.8f;
+	[SerializeField] float collisionAngleDistance = 10f;
+
+	Vector3 l_Direction = Vector3.zero;
+
 
 	void Start()
 	{
@@ -48,7 +60,7 @@ public class CameraController : MonoBehaviour
         float l_MouseAxisX = Input.GetAxis("Mouse X");
         float l_MouseAxisY = Input.GetAxis("Mouse Y");
 
-        Vector3 l_Direction = m_LookAt.position - transform.position;
+        l_Direction = m_LookAt.position - transform.position;
         float l_Distance = l_Direction.magnitude;
 
         Vector3 l_DesiredPosition = transform.position;
@@ -88,15 +100,61 @@ public class CameraController : MonoBehaviour
 		l_DesiredPosition = m_LookAt.position - l_Direction * l_Distance;
 
 		//TODO: Bring camera closer if colliding with any object.
-		RaycastHit l_RaycastHit;
-		Ray l_Ray = new Ray(m_LookAt.position, -l_Direction);
-		if (Physics.Raycast(l_Ray, out l_RaycastHit, l_Distance, layerMask))
-		{
-			l_DesiredPosition = l_RaycastHit.point + l_Direction * offsetCollision;
-		}
-
+		Vector3 new_DesiredPosition = checkCollisionsAndGetCorrectedDistance(l_Direction, l_Distance, l_DesiredPosition);
+		l_DesiredPosition = (new_DesiredPosition == Vector3.zero) ? l_DesiredPosition : new_DesiredPosition;
 
 		transform.forward=l_Direction;
 		transform.position=l_DesiredPosition;
 	} 
+
+	Vector3 checkCollisionsAndGetCorrectedDistance(Vector3 l_Direction, float l_Distance, Vector3 l_DesiredPosition)
+	{
+		//RaycastHit l_RaycastHit;
+		//Ray l_Ray = new Ray(m_LookAt.position, -l_Direction);
+		//if (Physics.Raycast(l_Ray, out l_RaycastHit, l_Distance, layerMask))  // CENTRAL RAY?
+		//{
+		//	return l_RaycastHit.point + l_Direction * offsetCollision;
+		//}
+		Vector3 new_DesiredPosition = Vector3.zero;
+
+		List<Vector3> rightDesiredPositions = getDesiredPositions(rightAngles, l_Direction, l_DesiredPosition);
+		List<Vector3> leftDesiredPositions = getDesiredPositions(leftAngles, l_Direction, l_DesiredPosition);
+		// do average
+		// check which one is larger
+		// interpolate
+
+		return new_DesiredPosition;
+	}
+
+	List<Vector3> getDesiredPositions(List<float> angles, Vector3 l_Direction, Vector3 l_DesiredPosition)
+	{
+		RaycastHit l_RaycastHit;
+		Ray l_Ray = new Ray(m_LookAt.position, -l_Direction);
+
+		List<Vector3> desiredPositions = new List<Vector3>();
+		foreach (float angleRay in rightAngles)
+		{
+			l_Ray = new Ray (m_LookAt.position, Quaternion.AngleAxis(angleRay, Vector3.up) * -l_Direction);
+			if (Physics.Raycast(l_Ray, out l_RaycastHit, collisionAngleDistance, layerMask))
+			{
+				desiredPositions.Add(Vector3.Lerp(l_DesiredPosition, l_RaycastHit.point + l_Direction * offsetCollision, otherAngleWeight));
+			}
+		}
+		return desiredPositions;
+	}
+
+
+	private void OnDrawGizmos() {
+		foreach (float angleRay in rightAngles)
+		{
+			Gizmos.color = Color.green;
+			Gizmos.DrawRay(m_LookAt.position, Quaternion.AngleAxis(angleRay, Vector3.up) * -l_Direction * collisionAngleDistance);
+		}
+
+		foreach (float angleRay in leftAngles)
+		{
+			Gizmos.color = Color.red;
+			Gizmos.DrawRay(m_LookAt.position, Quaternion.AngleAxis(angleRay, Vector3.up) * -l_Direction * collisionAngleDistance);
+		}
+	}
 }

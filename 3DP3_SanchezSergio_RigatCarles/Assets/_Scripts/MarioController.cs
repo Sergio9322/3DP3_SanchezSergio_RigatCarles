@@ -182,10 +182,10 @@ public class MarioController : MonoBehaviour, IRestartGameElement
         touchingGround = (flags & CollisionFlags.Below) != 0;
         if (touchingGround) currentOnGroundTime++;
         else currentOnGroundTime = 0;
-        onGround = touchingGround;//borrar luego, esto para provisonal para seguir la clase
+        //onGround = touchingGround;//borrar luego, esto para provisonal para seguir la clase
         //onGround = isOnGround();
         
-        //onGround = Physics.Raycast(new Ray(transform.position, Vector3.down), 0.3f);
+        onGround = Physics.Raycast(new Ray(feet.transform.position, Vector3.down), 0.4f);
         touchingCeiling = (flags & CollisionFlags.Above) != 0;
 
         if (onGround)

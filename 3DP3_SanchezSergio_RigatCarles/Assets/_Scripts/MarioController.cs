@@ -23,11 +23,14 @@ public class MarioController : MonoBehaviour
     [SerializeField] int maxJumps;
     [SerializeField] Transform feet;
     [SerializeField] LayerMask groundMask;
-    public int jumpCounter=0;
+    int jumpCounter=0;
     float verticalSpeed = 0.0f;
-    bool onGround = false;
+    bool onGround;
     bool touchingCeiling = false;
     public float m_BridgeForce;
+    float currentOnGroundTime;
+    public float onGroundTime = 30;
+    bool touchingGround;
 
     [SerializeField] KeyCode fwKey;
     [SerializeField] KeyCode backKey;
@@ -147,11 +150,12 @@ public class MarioController : MonoBehaviour
             float currentSpeed = Input.GetKey(runKey) ? runSpeed : walkSpeed;
             movement = movement.normalized* currentSpeed* Time.deltaTime;
             transform.forward = movement;
+            animator.SetFloat("speed", currentSpeed);
         }
-        animator.SetFloat("speed", movement.magnitude);
+        else { animator.SetFloat("speed", 0.0f); }
+        
         animator.SetInteger("jumpCounter", jumpCounter);
         animator.SetFloat("verticalSpeed", verticalSpeed);
-        //Debug.Log(movement.magnitude);
         animator.SetBool("onGround", onGround);
         
         //Apply gravity to verticalSpeed
@@ -163,28 +167,35 @@ public class MarioController : MonoBehaviour
 
 
         //If onGround -> verticlaSpeed=0
-        onGround = (flags & CollisionFlags.Below) != 0;
+        touchingGround = (flags & CollisionFlags.Below) != 0;
+        if (touchingGround) currentOnGroundTime++;
+        else currentOnGroundTime = 0;
+        onGround = touchingGround;//borrar luego, esto para provisonal para seguir la clase
+        //onGround = isOnGround();
+        
+        //onGround = Physics.Raycast(new Ray(transform.position, Vector3.down), 0.3f);
         touchingCeiling = (flags & CollisionFlags.Above) != 0;
 
-        /*
-        RaycastHit l_RaycastHit;
-        Ray l_Ray = new Ray(feet.position, feet.forward);
-        if (Physics.Raycast(l_Ray, out l_RaycastHit, 0f, groundMask))
-        {
-            onGround = true;
-            Debug.Log("Tocas suelo, no?");
-        }
-        */
         if (onGround)
         {
-            //Debug.Log("Grounded");
+            Debug.Log("onGround on");
             verticalSpeed = 0.0f;
             jumpCounter = 0;
         }
         if (touchingCeiling && verticalSpeed > 0.0f) verticalSpeed = 0.0f;
 
     }
-
+    bool isOnGround()
+    {
+        
+        if (currentOnGroundTime > onGroundTime)
+        {
+            //currentOnGroundTime = 0;
+            return true;
+            
+        }
+        else return false;
+    }
 
     public void OnControllerColliderHit(ControllerColliderHit hit)
     {

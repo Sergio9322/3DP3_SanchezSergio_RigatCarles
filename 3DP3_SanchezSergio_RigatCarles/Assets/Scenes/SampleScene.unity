@@ -755,12 +755,16 @@ MonoBehaviour:
   m_MaxPitch: 75
   m_DebugLockAngleKeyCode: 105
   m_DebugLockKeyCode: 111
+  minCamDist: 5
+  maxCamDist: 10
   layerMask:
     serializedVersion: 2
     m_Bits: 1
   offsetCollision: 1
-  minCamDist: 5
-  maxCamDist: 10
+  rightAngles: []
+  leftAngles: []
+  otherAngleWeight: 0.8
+  collisionAngleDistance: 10
 --- !u!1 &1055391371
 GameObject:
   m_ObjectHideFlags: 0
@@ -1355,8 +1359,8 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 1
-  jumpCounter: 0
   m_BridgeForce: 3
+  onGroundTime: 200
   fwKey: 119
   backKey: 115
   rightKey: 100

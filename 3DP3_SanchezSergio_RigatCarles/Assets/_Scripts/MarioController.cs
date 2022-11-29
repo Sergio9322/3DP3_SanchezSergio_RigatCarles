@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class MarioController : MonoBehaviour
+public class MarioController : MonoBehaviour, IRestartGameElement
 {
     public enum TPunchType
     {
@@ -12,7 +12,6 @@ public class MarioController : MonoBehaviour
         KICK
     }
 
-    
     [SerializeField] Camera cam;
     [SerializeField] CharacterController charController;
     [SerializeField] Animator animator;
@@ -53,12 +52,25 @@ public class MarioController : MonoBehaviour
     public float m_PunchComboTime = 0.25f;
     bool m_PunchActive = false;
 
+    Vector3 m_StartPosition;
+    Quaternion m_StartRotation;
+
+    [Header("Elevator")]
+    [SerializeField] float m_ElevatorMaxAngleAllowed = 10.0f;
+    Collider m_CurrentElevator = null;
+
+    Checkpoint m_CurrentCheckpoint = null;
+
     private void Start()
     {
         m_CurrentPunchTime = -m_PunchComboTime;
         m_LeftHandCollider.gameObject.SetActive(false);
         m_RightHandCollider.gameObject.SetActive(false);
         m_KickCollider.gameObject.SetActive(false);
+
+        m_StartPosition = transform.position;
+        m_StartRotation = transform.rotation;
+        GameController.GetGameController().AddRestartGameElement(this);
     }
 
     public void HitPunch(TPunchType PunchType,bool Active)
@@ -206,8 +218,77 @@ public class MarioController : MonoBehaviour
         }
     }
 
+    void LateUpdate()
+    {
+        float l_AngleY = transform.rotation.eulerAngles.y;
+        transform.rotation = Quaternion.Euler(0.0f, l_AngleY, 0.0f);
+    }
 
+    private void OnTriggerEnter(Collider other) {
+        if (other.tag == "Elevator")
+        {
+            if (m_CurrentElevator == null && CanAttachToElevator(other))
+                AttachToElevator(other);
+        }
 
+        else if (other.tag == "Checkpoint")
+            m_CurrentCheckpoint = other.gameObject.GetComponent<Checkpoint>();
+    }   
 
+    private void OnTriggerStay(Collider other) {
+        if (other.tag == "Elevator")
+        {
+            if (m_CurrentElevator == null)
+            {
+                if (CanAttachToElevator(other))
+                    AttachToElevator(other); 
+            }
+            else
+            {
+                if (m_CurrentElevator == other && !CanAttachToElevator(other))
+                    DetachElevator();
+            }
+        }
+    }
 
+    bool CanAttachToElevator(Collider other)
+    {
+        return Vector3.Dot(other.transform.forward, Vector3.up) > Mathf.Cos(m_ElevatorMaxAngleAllowed*Mathf.Deg2Rad);
+    }
+
+    void AttachToElevator(Collider other)
+    {
+        transform.SetParent(other.transform);
+        m_CurrentElevator = other;
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "Elevator" && other == m_CurrentElevator)
+            DetachElevator();
+    }
+
+    void DetachElevator()
+    {
+        transform.SetParent(null);
+        m_CurrentElevator = null;
+    }
+
+    public void RestartGame()
+    {
+        charController.enabled = false;
+        if (m_CurrentCheckpoint == null)
+        {
+            transform.position = m_StartPosition;
+            transform.rotation = m_StartRotation;
+        }
+        else
+        {
+            transform.position = m_CurrentCheckpoint.m_RespawnPosition.position;
+            transform.rotation = m_CurrentCheckpoint.m_RespawnPosition.rotation;
+        }
+        transform.SetParent(null);
+        m_CurrentElevator = null;
+        charController.enabled = true;
+    }
 }

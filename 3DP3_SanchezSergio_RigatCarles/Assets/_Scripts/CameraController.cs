@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraController : MonoBehaviour
+public class CameraController : MonoBehaviour, IRestartGameElement
 {
 	public Transform m_LookAt;
 	public float m_YawRotationalSpeed;
@@ -30,11 +30,17 @@ public class CameraController : MonoBehaviour
 
 	Vector3 l_Direction = Vector3.zero;
 
+	float m_StartPitch;
+	float m_StartYaw;
 
 	void Start()
 	{
-		Cursor.lockState=CursorLockMode.Locked;
-		m_CursorLocked=true;
+		Cursor.lockState = CursorLockMode.Locked;
+		m_CursorLocked = true;
+
+		m_StartPitch = transform.eulerAngles.x;
+		m_StartYaw = transform.eulerAngles.y;
+		GameController.GetGameController().AddRestartGameElement(this);
 	}
 	void OnApplicationFocus()
 	{
@@ -157,4 +163,9 @@ public class CameraController : MonoBehaviour
 			Gizmos.DrawRay(m_LookAt.position, Quaternion.AngleAxis(angleRay, Vector3.up) * -l_Direction * collisionAngleDistance);
 		}
 	}
+
+	public void RestartGame()
+    {
+        // TODO I AFEGIR AL START EL GAMECONTROLLER
+    }
 }

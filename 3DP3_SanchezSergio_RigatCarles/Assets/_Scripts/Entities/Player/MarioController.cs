@@ -218,30 +218,37 @@ public class MarioController : MonoBehaviour, IRestartGameElement
         else return false;
     }
 
-    public void OnControllerColliderHit(ControllerColliderHit hit)
+    public void OnControllerColliderHit(ControllerColliderHit l_Hit)
     {
-        if (hit.collider.tag == "Bridge")
+        if (l_Hit.collider.tag == "Bridge")
         {
-            Rigidbody l_Bridge = hit.collider.GetComponent<Rigidbody>();
-            l_Bridge.AddForceAtPosition(-hit.normal * m_BridgeForce, hit.point);
+            Rigidbody l_Bridge = l_Hit.collider.GetComponent<Rigidbody>();
+            l_Bridge.AddForceAtPosition(-l_Hit.normal * m_BridgeForce, l_Hit.point);
         }
-        else if (hit.collider.tag == "Goomba")
+        else if (l_Hit.collider.tag == "Goomba" )
         {
-            if (CanKillWithFeet(hit.normal))
-            {
-                hit.collider.GetComponent<Goomba>().Kill();
-                JumpOverEnemy();
-            }
-            else
-            {
-                // TODO: moure Goomba i Mario en (posGoomba - posMario).normalized * m_HitVelocity * Time.deltaTime;
-            }
+            Goomba l_Goomba = l_Hit.collider.GetComponent<Goomba>();
+            if (l_Goomba.IsAlive()) GoombaHit(l_Goomba, l_Hit);
+        }
+    }
+
+    void GoombaHit(Goomba l_Goomba, ControllerColliderHit l_Hit)
+    {
+        if (CanKillWithFeet(l_Hit.normal))
+        {
+            l_Goomba.Kill();
+            JumpOverEnemy();
+        }
+        else
+        {
+            // TODO: moure Goomba i Mario en (posGoomba - posMario).normalized * m_HitVelocity * Time.deltaTime;
         }
     }
 
     bool CanKillWithFeet(Vector3 Normal)
     {
-        return m_VerticalSpeed < 0.0f && Vector3.Dot(Normal, Vector3.up) > Mathf.Cos(m_KillGoombaMaxAngleAllowed * Mathf.Deg2Rad);
+        return m_VerticalSpeed < 0.0f && 
+               Vector3.Dot(Normal, Vector3.up) > Mathf.Cos(m_KillGoombaMaxAngleAllowed * Mathf.Deg2Rad);
     }
 
     void JumpOverEnemy()

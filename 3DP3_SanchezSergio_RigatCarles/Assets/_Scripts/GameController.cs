@@ -6,6 +6,7 @@ public class GameController : MonoBehaviour
 {
     static GameController m_GameController;
     List<IRestartGameElement> m_RestartGameElements = new List<IRestartGameElement>();
+    DependencyInjector m_DependencyInjector;
 
     static public GameController GetGameController()
     {
@@ -14,8 +15,20 @@ public class GameController : MonoBehaviour
             GameObject l_GameObject = new GameObject("GameController");
             GameController.DontDestroyOnLoad(l_GameObject);
             m_GameController = l_GameObject.AddComponent<GameController>();
+            m_GameController.Init(l_GameObject);
         }
         return m_GameController;
+    }
+
+    private void Init(GameObject l_GameObject)
+    {
+        m_DependencyInjector = l_GameObject.AddComponent<DependencyInjector>();
+        gameObject.AddComponent<ScoreManager>();
+    }
+
+    public DependencyInjector GetDependencyInjector()
+    {
+        return m_DependencyInjector;
     }
 
     public void AddRestartGameElement (IRestartGameElement RestartGameElement)

@@ -23,7 +23,7 @@ public class MarioController : MonoBehaviour, IRestartGameElement
     [SerializeField] Transform feet;
     [SerializeField] LayerMask groundMask;
     int jumpCounter=0;
-    float verticalSpeed = 0.0f;
+    float m_VerticalSpeed = 0.0f;
     bool onGround;
     bool touchingCeiling = false;
     public float m_BridgeForce;
@@ -61,6 +61,15 @@ public class MarioController : MonoBehaviour, IRestartGameElement
 
     Checkpoint m_CurrentCheckpoint = null;
 
+
+    [SerializeField] float m_KillGoombaMaxAngleAllowed = 30.0f;
+    [SerializeField] float m_VerticalKillSpeed = 5.0f;
+
+    void Awake()
+    {
+        GameController.GetGameController();
+    }
+    
     private void Start()
     {
         m_CurrentPunchTime = -m_PunchComboTime;
@@ -152,7 +161,7 @@ public class MarioController : MonoBehaviour, IRestartGameElement
 
         if (Input.GetKeyDown(jumpKey) && jumpCounter < maxJumps)
         {
-            verticalSpeed = jumpSpeed;
+            m_VerticalSpeed = jumpSpeed;
             jumpCounter++;
             
         }
@@ -167,12 +176,12 @@ public class MarioController : MonoBehaviour, IRestartGameElement
         else { animator.SetFloat("speed", 0.0f); }
         
         animator.SetInteger("jumpCounter", jumpCounter);
-        animator.SetFloat("verticalSpeed", verticalSpeed);
+        animator.SetFloat("verticalSpeed", m_VerticalSpeed);
         animator.SetBool("onGround", onGround);
         
         //Apply gravity to verticalSpeed
-        verticalSpeed += Physics.gravity.y * Time.deltaTime;
-        movement.y += verticalSpeed * Time.deltaTime;
+        m_VerticalSpeed += Physics.gravity.y * Time.deltaTime;
+        movement.y += m_VerticalSpeed * Time.deltaTime;
 
         //Move: charController.move
         CollisionFlags flags = charController.Move(movement);
@@ -191,10 +200,10 @@ public class MarioController : MonoBehaviour, IRestartGameElement
         if (onGround)
         {
             Debug.Log("onGround on");
-            verticalSpeed = 0.0f;
+            m_VerticalSpeed = 0.0f;
             jumpCounter = 0;
         }
-        if (touchingCeiling && verticalSpeed > 0.0f) verticalSpeed = 0.0f;
+        if (touchingCeiling && m_VerticalSpeed > 0.0f) m_VerticalSpeed = 0.0f;
 
     }
     bool isOnGround()
@@ -216,6 +225,28 @@ public class MarioController : MonoBehaviour, IRestartGameElement
             Rigidbody l_Bridge = hit.collider.GetComponent<Rigidbody>();
             l_Bridge.AddForceAtPosition(-hit.normal * m_BridgeForce, hit.point);
         }
+        else if (hit.collider.tag == "Goomba")
+        {
+            if (CanKillWithFeet(hit.normal))
+            {
+                hit.collider.GetComponent<Goomba>().Kill();
+                JumpOverEnemy();
+            }
+            else
+            {
+                // TODO: moure Goomba i Mario en (posGoomba - posMario).normalized * m_HitVelocity * Time.deltaTime;
+            }
+        }
+    }
+
+    bool CanKillWithFeet(Vector3 Normal)
+    {
+        return m_VerticalSpeed < 0.0f && Vector3.Dot(Normal, Vector3.up) > Mathf.Cos(m_KillGoombaMaxAngleAllowed * Mathf.Deg2Rad);
+    }
+
+    void JumpOverEnemy()
+    {
+        m_VerticalSpeed = m_VerticalKillSpeed;
     }
 
     void LateUpdate()
@@ -233,6 +264,8 @@ public class MarioController : MonoBehaviour, IRestartGameElement
 
         else if (other.tag == "Checkpoint")
             m_CurrentCheckpoint = other.gameObject.GetComponent<Checkpoint>();
+        else if (other.gameObject.tag == "Player")
+            other.GetComponent<Coin>().Pick();
     }   
 
     private void OnTriggerStay(Collider other) {

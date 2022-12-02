@@ -1735,6 +1735,7 @@ GameObject:
   - component: {fileID: 963194227}
   - component: {fileID: 963194226}
   - component: {fileID: 963194229}
+  - component: {fileID: 963194230}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1824,18 +1825,32 @@ MonoBehaviour:
   m_PitchRotationalSpeed: 5
   m_MinPitch: 10
   m_MaxPitch: 75
-  m_DebugLockAngleKeyCode: 105
-  m_DebugLockKeyCode: 111
   minCamDist: 5
   maxCamDist: 10
+  m_DebugLockAngleKeyCode: 105
+  m_DebugLockKeyCode: 111
+  m_CameraCollision: {fileID: 963194230}
+--- !u!114 &963194230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c3817f2a638112499bf41ce62ed7775, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   layerMask:
     serializedVersion: 2
-    m_Bits: 1
-  offsetCollision: 1
-  rightAngles: []
-  leftAngles: []
-  otherAngleWeight: 0.8
-  collisionAngleDistance: 10
+    m_Bits: 4294967295
+  m_OffsetCollision: 0.3
+  m_sideRaysCount: 3
+  m_sideRaysAngle: 15
+  m_TopDownRays: 3
+  m_TopDownAngle: 15
+  m_OtherAngleWeight: 0.8
 --- !u!1 &1055391371
 GameObject:
   m_ObjectHideFlags: 0

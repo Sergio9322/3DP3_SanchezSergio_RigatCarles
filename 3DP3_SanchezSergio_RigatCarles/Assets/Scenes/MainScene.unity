@@ -1827,6 +1827,8 @@ MonoBehaviour:
   m_MaxPitch: 75
   minCamDist: 5
   maxCamDist: 10
+  m_InterpolationSpeed: 3
+  m_InterpolationActive: 1
   m_DebugLockAngleKeyCode: 105
   m_DebugLockKeyCode: 111
   m_CameraCollision: {fileID: 963194230}

@@ -13,6 +13,8 @@ public class CameraController : MonoBehaviour, IRestartGameElement
 
 	[SerializeField] float minCamDist= 5;
 	[SerializeField] float maxCamDist = 10;
+	[SerializeField] float m_InterpolationSpeed = 5f;
+	[SerializeField] bool m_InterpolationActive = true;
 
 	Vector3 l_Direction = Vector3.zero;
 
@@ -86,15 +88,20 @@ public class CameraController : MonoBehaviour, IRestartGameElement
 		l_DesiredPosition = m_LookAt.position - l_Direction * l_Distance;
 
 		//TODO: Bring camera closer if colliding with any object.-------------------------------------------------------------------------------------------------------
-		Vector3 new_DesiredPosition = m_CameraCollision.GetDesiredPosition(l_Direction, l_Distance, l_DesiredPosition, m_LookAt);
-		l_DesiredPosition = (new_DesiredPosition == Vector3.zero) ? l_DesiredPosition : new_DesiredPosition;
+		Vector3 l_NewDesiredPosition = m_CameraCollision.GetDesiredPosition(l_Direction, l_Distance, l_DesiredPosition, m_LookAt);
+		l_DesiredPosition = (l_NewDesiredPosition == Vector3.zero) ? l_DesiredPosition : l_NewDesiredPosition;
 
-		transform.forward=l_Direction;
-		transform.position=l_DesiredPosition;
+		transform.forward = l_Direction;
+		transform.position = m_InterpolationActive ? InterpolateNewPosition(l_DesiredPosition) : l_DesiredPosition;
 
 #if UNITY_EDITOR
 		EditorDebugLock();
 #endif
+	}
+
+	Vector3 InterpolateNewPosition(Vector3 l_DesiredPosition)
+	{
+		return Vector3.Lerp(transform.position, l_DesiredPosition, Time.deltaTime * m_InterpolationSpeed);
 	}
 	
 	public void RestartGame()

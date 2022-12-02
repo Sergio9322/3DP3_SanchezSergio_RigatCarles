@@ -86,7 +86,7 @@ public class CameraController : MonoBehaviour, IRestartGameElement
 		l_DesiredPosition = m_LookAt.position - l_Direction * l_Distance;
 
 		//TODO: Bring camera closer if colliding with any object.-------------------------------------------------------------------------------------------------------
-		Vector3 new_DesiredPosition = m_CameraCollision.GetDesiredPosition(l_Direction, l_Distance, l_DesiredPosition);
+		Vector3 new_DesiredPosition = m_CameraCollision.GetDesiredPosition(l_Direction, l_Distance, l_DesiredPosition, m_LookAt);
 		l_DesiredPosition = (new_DesiredPosition == Vector3.zero) ? l_DesiredPosition : new_DesiredPosition;
 
 		transform.forward=l_Direction;

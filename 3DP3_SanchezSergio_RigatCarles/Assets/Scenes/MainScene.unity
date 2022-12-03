@@ -1141,7 +1141,7 @@ GameObject:
   - component: {fileID: 573318265}
   m_Layer: 6
   m_Name: RightHandCollider
-  m_TagString: Untagged
+  m_TagString: MarioHit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1241,7 +1241,7 @@ GameObject:
   - component: {fileID: 679502107}
   m_Layer: 6
   m_Name: LeftHandCollider
-  m_TagString: Untagged
+  m_TagString: MarioHit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2897,7 +2897,7 @@ GameObject:
   - component: {fileID: 2015142152}
   m_Layer: 6
   m_Name: RightFootCollider
-  m_TagString: Untagged
+  m_TagString: MarioHit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -140,7 +140,6 @@ public class MarioController : MonoBehaviour, IRestartGameElement
                 NextComboPunch();
         }
 
-
         //Check Input
         //Movement: CameraDir, Input, Speed, deltaTime
         Vector3 fw = cam.transform.forward;

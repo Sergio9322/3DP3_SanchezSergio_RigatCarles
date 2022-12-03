@@ -13,10 +13,16 @@ public class Goomba : MonoBehaviour, IRestartGameElement
     {
         GameController.GetGameController().AddRestartGameElement(this);
     }
-    public void Kill()
+
+    void OnTriggerEnter(Collider other)
     {
-        StartCoroutine(KillCoroutine());
+        if (other.gameObject.tag == "MarioHit")
+        {
+            this.Kill();
+        }
     }
+    public void Kill() { StartCoroutine(KillCoroutine()); }
+
     IEnumerator KillCoroutine()
     {
         transform.localScale = new Vector3(1.0f, 0.1f, 1.0f);
@@ -24,12 +30,6 @@ public class Goomba : MonoBehaviour, IRestartGameElement
         gameObject.SetActive(false);
         m_Alive = false;
         // TODO: Animar amb el temps
-    }
-    public void RestartGame()
-    {
-        transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-        gameObject.SetActive(true);
-        m_Alive = true;
     }
 
     public bool TryGetDamage()
@@ -40,14 +40,21 @@ public class Goomba : MonoBehaviour, IRestartGameElement
             StartCoroutine(WaitUntilCanDoDamage());
             return true;
         }
-        Debug.Log("No damage");
         return false;
     }
+
     public bool IsAlive() { return m_Alive; }
 
     IEnumerator WaitUntilCanDoDamage()
     {
         yield return new WaitForSeconds(m_DamageInterval);
         m_CanDoDamage = true;
+    }
+    
+    public void RestartGame()
+    {
+        transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+        gameObject.SetActive(true);
+        m_Alive = true;
     }
 }

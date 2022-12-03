@@ -9,6 +9,7 @@ TagManager:
   - Checkpoint
   - Goomba
   - Coin
+  - MarioHit
   layers:
   - Default
   - TransparentFX

@@ -237,7 +237,7 @@ public class MarioController : MonoBehaviour, IRestartGameElement
     {
         if (CanKillWithFeet(l_Hit.normal))
         {
-            l_Goomba.Kill();
+            l_Goomba.KillJumping();
             JumpOverEnemy();
         }
         else if (l_Goomba.TryGetDamage())

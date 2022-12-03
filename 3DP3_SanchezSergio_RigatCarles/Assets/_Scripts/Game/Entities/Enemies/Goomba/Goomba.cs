@@ -18,18 +18,29 @@ public class Goomba : MonoBehaviour, IRestartGameElement
     {
         if (other.gameObject.tag == "MarioHit")
         {
-            this.Kill();
+            this.KillHitting();
         }
     }
-    public void Kill() { StartCoroutine(KillCoroutine()); }
+    public void KillJumping() { StartCoroutine(KillJumpingCoroutine()); }
+    public void KillHitting() { StartCoroutine(KillHittingCoroutine()); }
 
-    IEnumerator KillCoroutine()
+    IEnumerator KillJumpingCoroutine()
     {
         transform.localScale = new Vector3(1.0f, 0.1f, 1.0f);
         yield return new WaitForSeconds(m_DeadTime);
         gameObject.SetActive(false);
         m_Alive = false;
         // TODO: Animar amb el temps
+        // TODO: Particles
+    }
+
+    IEnumerator KillHittingCoroutine()
+    {
+        // TODO: Fer sortir disparat
+        yield return new WaitForSeconds(m_DeadTime);
+        gameObject.SetActive(false);
+        m_Alive = false;
+        // TODO: Particles
     }
 
     public bool TryGetDamage()

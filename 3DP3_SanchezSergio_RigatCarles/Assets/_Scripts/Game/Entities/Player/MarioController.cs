@@ -20,16 +20,14 @@ public class MarioController : MonoBehaviour, IRestartGameElement
     [SerializeField] float runSpeed;
     [SerializeField] float jumpSpeed;
     [SerializeField] int maxJumps;
+    float currentSpeed;
     [SerializeField] Transform feet;
     [SerializeField] LayerMask groundMask;
     int jumpCounter=0;
     float m_VerticalSpeed = 0.0f;
-    bool onGround;
+    bool onGround=true;
     bool touchingCeiling = false;
     public float m_BridgeForce;
-    float currentOnGroundTime;
-    public float onGroundTime = 30;
-    bool touchingGround;
 
     [SerializeField] KeyCode fwKey;
     [SerializeField] KeyCode backKey;
@@ -61,9 +59,14 @@ public class MarioController : MonoBehaviour, IRestartGameElement
 
     Checkpoint m_CurrentCheckpoint = null;
 
-
+    [Header("Combat")]
     [SerializeField] float m_KillGoombaMaxAngleAllowed = 30.0f;
     [SerializeField] float m_VerticalKillSpeed = 5.0f;
+
+    [Header("Special Idle")]
+    [SerializeField] float secsToWait = 600;
+    float waitingCounter = 0f;
+    bool specialIdle = false;
 
     void Awake()
     {
@@ -158,16 +161,31 @@ public class MarioController : MonoBehaviour, IRestartGameElement
         if (Input.GetKey(leftKey))
             movement -= right;
 
-        if (Input.GetKeyDown(jumpKey) && jumpCounter < maxJumps)
+        if (Input.GetKeyDown(jumpKey) && jumpCounter < maxJumps && currentSpeed >= runSpeed)
+        {
+            m_VerticalSpeed = jumpSpeed*0.8f;
+            movement += fw*2;
+            jumpCounter++;
+            waitingCounter = 0;
+        }
+        if (Input.GetKeyDown(jumpKey) && jumpCounter < maxJumps && currentSpeed < runSpeed)
         {
             m_VerticalSpeed = jumpSpeed;
             jumpCounter++;
-            
+            waitingCounter = 0;
         }
+        waitingCounter += Time.deltaTime;
 
+        if(Input.anyKey) waitingCounter = 0;
+
+        if (waitingCounter > secsToWait)
+            specialIdle = true;
+        else
+            specialIdle = false;
+        animator.SetBool("specialIdle", specialIdle);
         if (movement.magnitude > 0.0f)
         {
-            float currentSpeed = Input.GetKey(runKey) ? runSpeed : walkSpeed;
+            currentSpeed = Input.GetKey(runKey) ? runSpeed : walkSpeed;
             movement = movement.normalized* currentSpeed* Time.deltaTime;
             transform.forward = movement;
             animator.SetFloat("speed", currentSpeed);
@@ -186,35 +204,19 @@ public class MarioController : MonoBehaviour, IRestartGameElement
         CollisionFlags flags = charController.Move(movement);
 
 
-        //If onGround -> verticlaSpeed=0
-        touchingGround = (flags & CollisionFlags.Below) != 0;
-        if (touchingGround) currentOnGroundTime++;
-        else currentOnGroundTime = 0;
-        //onGround = touchingGround;//borrar luego, esto para provisonal para seguir la clase
-        //onGround = isOnGround();
+        //If onGround -> verticalSpeed=0
+
         
         onGround = Physics.Raycast(new Ray(feet.transform.position, Vector3.down), 0.2f);
         touchingCeiling = (flags & CollisionFlags.Above) != 0;
 
         if (onGround)
         {
-            Debug.Log("onGround on");
             m_VerticalSpeed = 0.0f;
             jumpCounter = 0;
         }
         if (touchingCeiling && m_VerticalSpeed > 0.0f) m_VerticalSpeed = 0.0f;
 
-    }
-    bool isOnGround()
-    {
-        
-        if (currentOnGroundTime > onGroundTime)
-        {
-            //currentOnGroundTime = 0;
-            return true;
-            
-        }
-        else return false;
     }
 
     public void OnControllerColliderHit(ControllerColliderHit l_Hit)

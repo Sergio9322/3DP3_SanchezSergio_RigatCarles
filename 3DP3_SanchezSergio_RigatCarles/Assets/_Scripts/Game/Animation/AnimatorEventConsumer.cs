@@ -15,6 +15,10 @@ public class AnimatorEventConsumer : MonoBehaviour
     [SerializeField] AudioClip sound_3jump2;
     [SerializeField] AudioClip sound_3jump3;
     [SerializeField] AudioClip sound_step;
+    [SerializeField] AudioClip sound_punch1;
+    [SerializeField] AudioClip sound_punch2;
+    [SerializeField] AudioClip sound_punch3;
+    [SerializeField] AudioClip sound_longJump;
     void Step(int foot)
     {
         audioSource.PlayOneShot(sound_step);
@@ -47,25 +51,24 @@ public class AnimatorEventConsumer : MonoBehaviour
         }
         audioSource.PlayOneShot(chosen);
     }
-    void walk()
+
+    void PunchSound1()
     {
-
+        audioSource.PlayOneShot(sound_punch1);
     }
-
-    void PunchSound1(AnimationEvent _AnimationEvent)
+    void PunchSound2()
     {
-
+        audioSource.PlayOneShot(sound_punch2);
     }
-    void PunchSound2(AnimationEvent _AnimationEvent)
+    void PunchSound3()
     {
-
-
+        audioSource.PlayOneShot(sound_punch3);
     }
-    void PunchSound3(AnimationEvent _AnimationEvent)
+    void LongJumpSound()
     {
-
+        audioSource.PlayOneShot(sound_longJump);
     }
-    void FinishPunch(AnimationEvent _AnimationEvent)
+    void FinishPunch()
     {
 
     }

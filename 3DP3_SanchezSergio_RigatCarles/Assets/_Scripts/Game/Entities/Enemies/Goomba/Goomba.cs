@@ -6,6 +6,8 @@ public class Goomba : MonoBehaviour, IRestartGameElement
 {
     public float m_DeadTime = 0.5f;
     bool m_Alive = true;
+    bool m_CanDoDamage = true;
+    [SerializeField] float m_DamageInterval = 1.0f;
 
     void Start()
     {
@@ -30,5 +32,22 @@ public class Goomba : MonoBehaviour, IRestartGameElement
         m_Alive = true;
     }
 
+    public bool TryGetDamage()
+    {
+        if (m_CanDoDamage)
+        {
+            m_CanDoDamage = false;
+            StartCoroutine(WaitUntilCanDoDamage());
+            return true;
+        }
+        Debug.Log("No damage");
+        return false;
+    }
     public bool IsAlive() { return m_Alive; }
+
+    IEnumerator WaitUntilCanDoDamage()
+    {
+        yield return new WaitForSeconds(m_DamageInterval);
+        m_CanDoDamage = true;
+    }
 }

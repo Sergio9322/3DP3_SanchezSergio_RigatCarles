@@ -241,8 +241,10 @@ public class MarioController : MonoBehaviour, IRestartGameElement
             l_Goomba.Kill();
             JumpOverEnemy();
         }
-        else
+        else if (l_Goomba.TryGetDamage())
         {
+            // TODO: Take damage
+            Debug.Log("Take damage");
             // TODO: moure Goomba i Mario en (posGoomba - posMario).normalized * m_HitVelocity * Time.deltaTime;
         }
     }

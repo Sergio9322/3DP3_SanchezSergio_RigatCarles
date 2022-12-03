@@ -14,14 +14,37 @@ public class AnimatorEventConsumer : MonoBehaviour
     [SerializeField] AudioClip sound_3jump1;
     [SerializeField] AudioClip sound_3jump2;
     [SerializeField] AudioClip sound_3jump3;
-    [SerializeField] AudioClip sound_step;
     [SerializeField] AudioClip sound_punch1;
     [SerializeField] AudioClip sound_punch2;
     [SerializeField] AudioClip sound_punch3;
     [SerializeField] AudioClip sound_longJump;
+
+    [Header("Steps")]
+    [SerializeField] AudioSource stepsAudioSource;
+    [SerializeField] AudioClip sound_1step, sound_2step, sound_3step;
+    [SerializeField] float m_PitchRange;
+    [SerializeField] float m_VolumeRange;
+
     void Step(int foot)
     {
-        audioSource.PlayOneShot(sound_step);
+        float pitch = Random.Range(stepsAudioSource.pitch - m_PitchRange/2, stepsAudioSource.pitch + m_PitchRange/2);
+        float volume = Random.Range(stepsAudioSource.volume - m_VolumeRange/2, stepsAudioSource.volume + m_VolumeRange/2);
+        stepsAudioSource.pitch = pitch;
+        stepsAudioSource.volume = volume;
+        AudioClip clip = GetRandomStepClip();
+        stepsAudioSource.PlayOneShot(clip);
+    }
+
+    AudioClip GetRandomStepClip()
+    {
+        int r = Random.Range(0, 3);
+        switch (r) 
+        {
+            case 0: return sound_1step;
+            case 1: return sound_2step;
+            case 2: return sound_3step;
+        }
+        return sound_1step;
     }
     void Jump1()
     {

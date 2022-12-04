@@ -21,6 +21,7 @@ public class Goomba : MonoBehaviour, IRestartGameElement
             this.KillHitting();
         }
     }
+    
     public void KillJumping() { StartCoroutine(KillJumpingCoroutine()); }
     public void KillHitting() { StartCoroutine(KillHittingCoroutine()); }
 

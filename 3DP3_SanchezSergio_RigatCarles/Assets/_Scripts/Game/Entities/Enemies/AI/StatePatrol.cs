@@ -17,13 +17,10 @@ public class StatePatrol : MonoBehaviour, IStateAI
     [SerializeField] float patrolMinDistance = 0.4f;
     [SerializeField] float patrolSpeed = 2;
     [SerializeField] float patrolAcceleration = 4f;
+    [SerializeField] float hearDistance = 15f;
     int currentPatrolTarget = 0;
     Animator animator;
-
-    [Header("ALERT")]
-    [SerializeField] float hearDistance = 15f;
-    [SerializeField] float alertSpeedRotation;
-    [SerializeField]float totalRotated = 0.0f;
+    bool initialised = false;
 
     void Awake()
     {
@@ -37,9 +34,16 @@ public class StatePatrol : MonoBehaviour, IStateAI
     {
         if (stateManager.IsState(state))
         {
+            if (!initialised) Initialise();
             UpdateState();
             ChangeState();
         }
+    }
+
+    void Initialise()
+    {
+        initialised = true;
+        currentPatrolTarget = 0;
     }
     
     public void UpdateState()
@@ -58,9 +62,9 @@ public class StatePatrol : MonoBehaviour, IStateAI
     {
         if (hearsPlayer())
         {
-            //stateManager.SetState(State.ALERT);
-            //totalRotated = 0.0f;
-            //animatior.SetTrigger("alert");
+            stateManager.SetState(State.ALERT);
+            animator.SetTrigger("alert");
+            initialised = false;
         }
     }  
 

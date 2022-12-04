@@ -78,20 +78,6 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1313079177204804268
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1320947999934511025}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79a3f6cbce2f37944ae1dfc6f2472221, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_DeadTime: 0.5
-  m_DamageInterval: 1
 --- !u!1 &2952126843438301581
 GameObject:
   m_ObjectHideFlags: 0
@@ -105,6 +91,8 @@ GameObject:
   - component: {fileID: 315509579449520125}
   - component: {fileID: 1129412084410289057}
   - component: {fileID: 8310525068791976385}
+  - component: {fileID: 7048145255007490125}
+  - component: {fileID: 51348785037855167}
   m_Layer: 0
   m_Name: GoombaAI
   m_TagString: Untagged
@@ -199,9 +187,39 @@ MonoBehaviour:
   patrolMinDistance: 0.4
   patrolSpeed: 2
   patrolAcceleration: 4
+  hearDistance: 5
+--- !u!114 &7048145255007490125
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2952126843438301581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abfd57121f224794ba9bfeae1046415a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 1
   hearDistance: 15
-  alertSpeedRotation: 0
-  totalRotated: 0
+  alertSpeedRotation: 90
+  chaseRange: 20
+--- !u!114 &51348785037855167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2952126843438301581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61e560bc7166f9f40b6041656884b52f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chaseRange: 20
+  chaseSpeed: 3
 --- !u!1 &3476902030597717992
 GameObject:
   m_ObjectHideFlags: 0

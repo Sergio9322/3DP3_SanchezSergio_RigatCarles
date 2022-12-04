@@ -2,17 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StateAttack : MonoBehaviour
+public class StateAttack : MonoBehaviour, IStateAI
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] State state = State.ATTACK;
+    public void UpdateState()
     {
-        
+        throw new System.NotImplementedException();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ChangeState()
     {
-        
-    }
+        throw new System.NotImplementedException();
+    }  
 }

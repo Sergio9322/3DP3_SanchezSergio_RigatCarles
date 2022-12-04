@@ -1,0 +1,1 @@
+public enum State { IDLE, PATROL, ALERT, ATTACK, HIT, DIE }

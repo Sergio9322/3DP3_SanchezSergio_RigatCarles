@@ -18,7 +18,7 @@ public class StatePatrol : MonoBehaviour, IStateAI
     [SerializeField] float patrolSpeed = 2;
     [SerializeField] float patrolAcceleration = 4f;
     int currentPatrolTarget = 0;
-
+    Animator animator;
 
     [Header("ALERT")]
     [SerializeField] float hearDistance = 15f;
@@ -30,17 +30,16 @@ public class StatePatrol : MonoBehaviour, IStateAI
         agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
         stateManager = GetComponent<StateManager>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<MarioController>();
+        animator = GetComponentInChildren<Animator>();
     }
 
     void Update()
     {
         if (stateManager.IsState(state))
         {
-            Debug.Log("Patrol");
             UpdateState();
             ChangeState();
         }
-        Debug.Log("Not Patrol");
     }
     
     public void UpdateState()
@@ -52,9 +51,7 @@ public class StatePatrol : MonoBehaviour, IStateAI
         {
             currentPatrolTarget++;
         }
-        Debug.Log(patrolTargets[currentPatrolTarget % patrolTargets.Count].position);
         agent.SetDestination(patrolTargets[currentPatrolTarget % patrolTargets.Count].position);
-
     }
 
     public void ChangeState()
@@ -62,7 +59,8 @@ public class StatePatrol : MonoBehaviour, IStateAI
         if (hearsPlayer())
         {
             //stateManager.SetState(State.ALERT);
-            totalRotated = 0.0f;
+            //totalRotated = 0.0f;
+            //animatior.SetTrigger("alert");
         }
     }  
 

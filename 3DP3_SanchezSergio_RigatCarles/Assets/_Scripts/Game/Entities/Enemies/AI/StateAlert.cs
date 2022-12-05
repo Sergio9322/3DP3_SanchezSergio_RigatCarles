@@ -11,11 +11,13 @@ public class StateAlert : MonoBehaviour, IStateAI
     Animator animator;
     bool initialised = false;
     float totalRotated = 0.0f;
+    bool hasSeenPlayer = false;
 
     [SerializeField] LayerMask obstacleMask;
     [SerializeField] float hearDistance = 15f;
     [SerializeField] float alertSpeedRotation;
     [SerializeField] float chaseRange;
+    [SerializeField] float timeToAttack = 0.7f;
 
     void Awake()
     {
@@ -30,7 +32,7 @@ public class StateAlert : MonoBehaviour, IStateAI
         if (stateManager.IsState(state))
         {
             if (!initialised) Initialise();
-            UpdateState();
+            if (!hasSeenPlayer) UpdateState();
             ChangeState();
         }
     }
@@ -53,9 +55,8 @@ public class StateAlert : MonoBehaviour, IStateAI
     {
         if (seesPlayer())
         {
-            stateManager.SetState(State.ATTACK);
-            animator.SetTrigger("attack");
-            initialised = false;
+            hasSeenPlayer = true;
+            StartCoroutine(WaitToAttack());
         }
         if (!hearsPlayer() || totalRotated >= 360.0f)
         {
@@ -68,13 +69,23 @@ public class StateAlert : MonoBehaviour, IStateAI
     bool seesPlayer()
     {
         Ray r = new Ray(transform.position, transform.forward);
-        float playerDist = (player.transform.position - transform.position).magnitude;
-        if (Physics.Raycast(r, out RaycastHit hitInfo, chaseRange, obstacleMask)) return true;
+        if (Physics.Raycast(r, out RaycastHit hitInfo, chaseRange, obstacleMask))
+            if (hitInfo.collider.gameObject.tag == "Player") return true;
         return false;
     }  
 
     bool hearsPlayer()
     {
         return (transform.position - player.transform.position).magnitude < hearDistance;
+    }
+
+    IEnumerator WaitToAttack()
+    {
+        animator.SetTrigger("alert");
+        initialised = false;
+        yield return new WaitForSeconds(timeToAttack);
+        stateManager.SetState(State.ATTACK);
+        animator.SetTrigger("attack");
+        hasSeenPlayer = false;
     }
 }

@@ -204,8 +204,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   hearDistance: 15
-  alertSpeedRotation: 90
-  chaseRange: 20
+  alertSpeedRotation: 180
+  chaseRange: 6
+  timeToAttack: 0.7
 --- !u!114 &51348785037855167
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -218,8 +219,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61e560bc7166f9f40b6041656884b52f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chaseRange: 20
-  chaseSpeed: 3
+  chaseRange: 6
+  chaseSpeed: 4
 --- !u!1 &3476902030597717992
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,9 +10,11 @@ public class StateAttack : MonoBehaviour, IStateAI
     UnityEngine.AI.NavMeshAgent agent;
     Animator animator;
     bool initialised = false;
+    Vector3 chaseDirection;
 
     [SerializeField] float chaseRange;
     [SerializeField] float chaseSpeed;
+    float maxFinalDestinationRange = 10000f;
 
     void Awake()
     {
@@ -35,18 +37,20 @@ public class StateAttack : MonoBehaviour, IStateAI
     void Initialise()
     {
         initialised = true;
+        agent.isStopped = false;
+        agent.speed = chaseSpeed;
+        this.transform.LookAt(player.transform);
+        agent.ResetPath();
+        chaseDirection = (player.transform.position - this.transform.position).normalized;
     }
     
     public void UpdateState()
     {
-        agent.isStopped = false;
-        agent.SetDestination(player.transform.position);
+        agent.Move(chaseDirection * chaseSpeed * Time.deltaTime);
     }
 
     public void ChangeState()
     {
-        agent.speed = chaseSpeed;
-        this.transform.LookAt(player.transform);
         if ((transform.position - player.transform.position).magnitude > chaseRange)
         {
             stateManager.SetState(State.PATROL);

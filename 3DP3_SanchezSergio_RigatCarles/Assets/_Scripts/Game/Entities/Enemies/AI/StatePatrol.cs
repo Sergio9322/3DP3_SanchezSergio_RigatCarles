@@ -44,6 +44,8 @@ public class StatePatrol : MonoBehaviour, IStateAI
     {
         initialised = true;
         currentPatrolTarget = 0;
+        agent.isStopped = false;
+        agent.speed = patrolSpeed;
     }
     
     public void UpdateState()
@@ -63,7 +65,6 @@ public class StatePatrol : MonoBehaviour, IStateAI
         if (hearsPlayer())
         {
             stateManager.SetState(State.ALERT);
-            animator.SetTrigger("alert");
             initialised = false;
         }
     }  

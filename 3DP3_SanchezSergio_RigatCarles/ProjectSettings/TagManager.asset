@@ -10,6 +10,7 @@ TagManager:
   - Goomba
   - Coin
   - MarioHit
+  - MapCollisions
   layers:
   - Default
   - TransparentFX

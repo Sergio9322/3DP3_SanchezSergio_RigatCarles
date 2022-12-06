@@ -65,12 +65,12 @@ public class MarioController : MonoBehaviour, IRestartGameElement
 
     [Header("Special Idle")]
     [SerializeField] float secsToSpecialIdle = 10;
-    float waitingCounterIdle = 0f;
+    [SerializeField]float waitingCounterIdle = 0f;
     bool specialIdle = false;
 
     [Header("Camera Comeback")]
     [SerializeField] float secsToCameraComeback = 5;
-    float waitingCounterCamera = 0f;
+    [SerializeField]float waitingCounterCamera = 0f;
     [SerializeField] UnityEvent m_CameraComebackEvent;
 
     void Awake()
@@ -186,6 +186,7 @@ public class MarioController : MonoBehaviour, IRestartGameElement
             movement = movement.normalized* currentSpeed* Time.deltaTime;
             transform.forward = movement;
             animator.SetFloat("speed", currentSpeed);
+            ResetWaitingCounter();
         }
         else { animator.SetFloat("speed", 0.0f); }
         

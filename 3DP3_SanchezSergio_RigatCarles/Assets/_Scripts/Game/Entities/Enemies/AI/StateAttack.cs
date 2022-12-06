@@ -42,6 +42,7 @@ public class StateAttack : MonoBehaviour, IStateAI
         this.transform.LookAt(player.transform);
         agent.ResetPath();
         chaseDirection = (player.transform.position - this.transform.position).normalized;
+        animator.SetBool("alert", false);
     }
     
     public void UpdateState()
@@ -54,7 +55,7 @@ public class StateAttack : MonoBehaviour, IStateAI
         if ((transform.position - player.transform.position).magnitude > chaseRange)
         {
             stateManager.SetState(State.PATROL);
-            animator.SetTrigger("walk");
+            animator.SetBool("walk", true);
             initialised = false;
         }
     }  

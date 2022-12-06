@@ -19,6 +19,8 @@ public class StateAlert : MonoBehaviour, IStateAI
     [SerializeField] float chaseRange;
     [SerializeField] float timeToAttack = 0.7f;
 
+    [SerializeField] Transform eyes;
+
     void Awake()
     {
         agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
@@ -41,6 +43,7 @@ public class StateAlert : MonoBehaviour, IStateAI
     {
         initialised = true;
         totalRotated = 0.0f;
+        animator.SetBool("walk", false);
     }
     
     public void UpdateState()
@@ -61,31 +64,36 @@ public class StateAlert : MonoBehaviour, IStateAI
         if (!hearsPlayer() || totalRotated >= 360.0f)
         {
             stateManager.SetState(State.PATROL);
-            animator.SetTrigger("walk");
+            animator.SetBool("walk", true);
             initialised = false;
         }
     }
 
     bool seesPlayer()
     {
-        Ray r = new Ray(transform.position, transform.forward);
+        Ray r = new Ray(eyes.position, eyes.forward);
         if (Physics.Raycast(r, out RaycastHit hitInfo, chaseRange, obstacleMask))
-            if (hitInfo.collider.gameObject.tag == "Player") return true;
+            if (hitInfo.collider.gameObject.tag == "PlayerFOV") return true;
         return false;
     }  
 
+    private void OnDrawGizmos() {
+        Gizmos.color = Color.red;
+        Gizmos.DrawRay(eyes.position, eyes.forward * chaseRange);
+    }
+
     bool hearsPlayer()
     {
-        return (transform.position - player.transform.position).magnitude < hearDistance;
+        return (eyes.position - player.transform.position).magnitude < hearDistance;
     }
 
     IEnumerator WaitToAttack()
     {
-        animator.SetTrigger("alert");
+        animator.SetBool("alert", true);
         initialised = false;
         yield return new WaitForSeconds(timeToAttack);
-        stateManager.SetState(State.ATTACK);
-        animator.SetTrigger("attack");
         hasSeenPlayer = false;
+        stateManager.SetState(State.ATTACK);
+        animator.SetBool("attack", true);
     }
 }

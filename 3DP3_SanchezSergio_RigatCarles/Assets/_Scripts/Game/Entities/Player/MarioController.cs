@@ -228,7 +228,7 @@ public class MarioController : MonoBehaviour, IRestartGameElement
         }
         else if (l_Hit.collider.tag == "Goomba" )
         {
-            Goomba l_Goomba = l_Hit.collider.GetComponent<Goomba>();
+            Goomba l_Goomba = l_Hit.collider.GetComponentInParent<Goomba>();
             if (l_Goomba.IsAlive()) GoombaHit(l_Goomba, l_Hit);
         }
     }

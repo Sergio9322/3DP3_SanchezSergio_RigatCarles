@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class StateManager : MonoBehaviour
 {
-    State currentState = State.PATROL;
+    [SerializeField] State currentState = State.PATROL;
 
     public bool IsState(State state) { return currentState == state; }
     public void SetState(State state) { currentState = state; }

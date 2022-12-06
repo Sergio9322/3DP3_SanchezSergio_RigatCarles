@@ -46,6 +46,8 @@ public class StatePatrol : MonoBehaviour, IStateAI
         currentPatrolTarget = 0;
         agent.isStopped = false;
         agent.speed = patrolSpeed;
+        animator.SetBool("walk", true);
+        animator.SetBool("attack", false);
     }
     
     public void UpdateState()

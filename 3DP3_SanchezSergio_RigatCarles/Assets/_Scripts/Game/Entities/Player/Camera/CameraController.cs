@@ -20,6 +20,7 @@ public class CameraController : MonoBehaviour, IRestartGameElement
 
 	float m_StartPitch, m_StartYaw;
 	Vector3 m_StartPosition;
+	bool m_Restarting = false;
 	
 	[Header("Debug")]
 	public KeyCode m_DebugLockAngleKeyCode=KeyCode.I;
@@ -49,7 +50,8 @@ public class CameraController : MonoBehaviour, IRestartGameElement
 	}
 	void LateUpdate()
 	{
-        MoveCamera();
+        if (m_Restarting) InterpolateToStartPosition();
+		else MoveCamera();
 #if UNITY_EDITOR
 		EditorDebugLock();
 #endif
@@ -128,17 +130,25 @@ public class CameraController : MonoBehaviour, IRestartGameElement
 		return Vector3.Lerp(transform.position, l_DesiredPosition, Time.deltaTime * m_InterpolationSpeed);
 	}
 
-	public void RepositionCamera()
+	void InterpolateToStartPosition()
 	{
-		transform.eulerAngles = new Vector3(m_StartPitch, m_StartYaw, 0);
-		transform.position = m_LookAt.position - m_StartPosition;
+		transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, new Vector3(m_StartPitch, m_StartYaw, 0), Time.deltaTime * m_InterpolationSpeed);
+		transform.position = Vector3.Lerp(transform.position, m_LookAt.position - m_StartPosition, Time.deltaTime * m_InterpolationSpeed);
+		if (IsCameraInStartPosition()) m_Restarting = false;
 	}
 
+	bool IsCameraInStartPosition()
+	{
+		return Vector3.Distance(transform.eulerAngles, new Vector3(m_StartPitch, m_StartYaw, 0)) < 0.1f 
+			&& Vector3.Distance(transform.position, m_LookAt.position - m_StartPosition) < 0.1f;
+	}
 
+	public void RepositionCamera() { m_Restarting = true; }
 	
 	public void RestartGame()
     {
-        RepositionCamera();
+        transform.eulerAngles = new Vector3(m_StartPitch, m_StartYaw, 0);
+		transform.position = m_LookAt.position - m_StartPosition;
     }
 
 #if UNITY_EDITOR

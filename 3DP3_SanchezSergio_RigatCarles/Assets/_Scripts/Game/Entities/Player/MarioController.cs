@@ -65,12 +65,12 @@ public class MarioController : MonoBehaviour, IRestartGameElement
 
     [Header("Special Idle")]
     [SerializeField] float secsToSpecialIdle = 10;
-    [SerializeField]float waitingCounterIdle = 0f;
+    float waitingCounterIdle = 0f;
     bool specialIdle = false;
 
     [Header("Camera Comeback")]
     [SerializeField] float secsToCameraComeback = 5;
-    [SerializeField]float waitingCounterCamera = 0f;
+    float waitingCounterCamera = 0f;
     [SerializeField] UnityEvent m_CameraComebackEvent;
 
     void Awake()

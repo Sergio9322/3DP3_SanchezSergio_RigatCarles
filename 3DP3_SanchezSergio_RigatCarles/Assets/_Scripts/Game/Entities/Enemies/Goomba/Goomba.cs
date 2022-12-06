@@ -2,16 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Goomba : MonoBehaviour, IRestartGameElement
+[RequireComponent(typeof(StateManager))]
+public class Goomba : MonoBehaviour
 {
-    public float m_DeadTime = 0.5f;
-    bool m_Alive = true;
     bool m_CanDoDamage = true;
     [SerializeField] float m_DamageInterval = 1.0f;
+    
+    StateManager m_StateManager;
+    bool m_Alive = true;
+    public void SetAlive(bool l_Alive) { m_Alive = l_Alive; }
 
-    void Start()
+    void Awake()
     {
-        GameController.GetGameController().AddRestartGameElement(this);
+        m_StateManager = GetComponent<StateManager>();
     }
 
     void OnTriggerEnter(Collider other)
@@ -22,27 +25,9 @@ public class Goomba : MonoBehaviour, IRestartGameElement
         }
     }
     
-    public void KillJumping() { StartCoroutine(KillJumpingCoroutine()); }
-    public void KillHitting() { StartCoroutine(KillHittingCoroutine()); }
+    public void KillJumping() { m_StateManager.SetState(State.DIE_JUMP); }
+    public void KillHitting() { m_StateManager.SetState(State.DIE_HIT); }
 
-    IEnumerator KillJumpingCoroutine()
-    {
-        transform.localScale = new Vector3(1.0f, 0.1f, 1.0f);
-        yield return new WaitForSeconds(m_DeadTime);
-        gameObject.SetActive(false);
-        m_Alive = false;
-        // TODO: Animar amb el temps
-        // TODO: Particles
-    }
-
-    IEnumerator KillHittingCoroutine()
-    {
-        // TODO: Fer sortir disparat
-        yield return new WaitForSeconds(m_DeadTime);
-        gameObject.SetActive(false);
-        m_Alive = false;
-        // TODO: Particles
-    }
 
     public bool TryGetDamage()
     {
@@ -63,10 +48,5 @@ public class Goomba : MonoBehaviour, IRestartGameElement
         m_CanDoDamage = true;
     }
     
-    public void RestartGame()
-    {
-        transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-        gameObject.SetActive(true);
-        m_Alive = true;
-    }
+    
 }

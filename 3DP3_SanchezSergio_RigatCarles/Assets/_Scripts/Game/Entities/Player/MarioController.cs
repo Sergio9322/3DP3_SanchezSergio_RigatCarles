@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.Events;
 
 public class MarioController : MonoBehaviour, IRestartGameElement
 {
@@ -64,9 +64,14 @@ public class MarioController : MonoBehaviour, IRestartGameElement
     [SerializeField] float m_VerticalKillSpeed = 5.0f;
 
     [Header("Special Idle")]
-    [SerializeField] float secsToWait = 600;
-    float waitingCounter = 0f;
+    [SerializeField] float secsToSpecialIdle = 10;
+    float waitingCounterIdle = 0f;
     bool specialIdle = false;
+
+    [Header("Camera Comeback")]
+    [SerializeField] float secsToCameraComeback = 5;
+    float waitingCounterCamera = 0f;
+    [SerializeField] UnityEvent m_CameraComebackEvent;
 
     void Awake()
     {
@@ -142,6 +147,7 @@ public class MarioController : MonoBehaviour, IRestartGameElement
             else
                 NextComboPunch();
         }
+        UpdateWaitingCounter();
 
         //Check Input
         //Movement: CameraDir, Input, Speed, deltaTime
@@ -166,23 +172,14 @@ public class MarioController : MonoBehaviour, IRestartGameElement
             m_VerticalSpeed = jumpSpeed*0.8f;
             movement += fw*2;
             jumpCounter++;
-            waitingCounter = 0;
+            ResetWaitingCounter();
         }
         if (Input.GetKeyDown(jumpKey) && jumpCounter < maxJumps && currentSpeed < runSpeed)
         {
             m_VerticalSpeed = jumpSpeed;
             jumpCounter++;
-            waitingCounter = 0;
+            ResetWaitingCounter();
         }
-        waitingCounter += Time.deltaTime;
-
-        if(Input.anyKey) waitingCounter = 0;
-
-        if (waitingCounter > secsToWait)
-            specialIdle = true;
-        else
-            specialIdle = false;
-        animator.SetBool("specialIdle", specialIdle);
         if (movement.magnitude > 0.0f)
         {
             currentSpeed = Input.GetKey(runKey) ? runSpeed : walkSpeed;
@@ -217,6 +214,21 @@ public class MarioController : MonoBehaviour, IRestartGameElement
         }
         if (touchingCeiling && m_VerticalSpeed > 0.0f) m_VerticalSpeed = 0.0f;
 
+    }
+
+    void UpdateWaitingCounter()
+    {
+        waitingCounterIdle += Time.deltaTime;
+        waitingCounterCamera += Time.deltaTime;
+
+        if (waitingCounterIdle > secsToSpecialIdle) { animator.SetTrigger("specialIdle"); waitingCounterIdle = 0; }
+        if (waitingCounterCamera > secsToCameraComeback) { m_CameraComebackEvent.Invoke(); waitingCounterCamera = 0; }
+    }
+
+    void ResetWaitingCounter()
+    {
+        waitingCounterIdle = 0;
+        waitingCounterCamera = 0;
     }
 
     public void OnControllerColliderHit(ControllerColliderHit l_Hit)
@@ -333,5 +345,6 @@ public class MarioController : MonoBehaviour, IRestartGameElement
         transform.SetParent(null);
         m_CurrentElevator = null;
         charController.enabled = true;
+        ResetWaitingCounter();
     }
 }

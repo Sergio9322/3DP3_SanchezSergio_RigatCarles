@@ -3083,6 +3083,24 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 7c0c5ddd8aaaf0648a5624fc561b3af4, type: 3}
   m_PrefabInstance: {fileID: 692405441}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1588964046 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2952126843438301581, guid: 5aab010d03cb6ba408cbaec886d67a8e, type: 3}
+  m_PrefabInstance: {fileID: 1320948001044671683}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1588964054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1588964046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38aac1816c97b2b4cb0e4613be188a4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_DeadTime: 0.5
 --- !u!1 &1590854669
 GameObject:
   m_ObjectHideFlags: 0
@@ -3384,7 +3402,7 @@ MonoBehaviour:
   m_ElevatorMaxAngleAllowed: 10
   m_KillGoombaMaxAngleAllowed: 30
   m_VerticalKillSpeed: 5
-  secsToWait: 600
+  secsToWait: 10
 --- !u!143 &1923232286
 CharacterController:
   m_ObjectHideFlags: 0

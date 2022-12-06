@@ -18,8 +18,8 @@ public class CameraController : MonoBehaviour, IRestartGameElement
 
 	Vector3 l_Direction = Vector3.zero;
 
-	float m_StartPitch;
-	float m_StartYaw;
+	float m_StartPitch, m_StartYaw;
+	Vector3 m_StartPosition;
 	
 	[Header("Debug")]
 	public KeyCode m_DebugLockAngleKeyCode=KeyCode.I;
@@ -29,6 +29,7 @@ public class CameraController : MonoBehaviour, IRestartGameElement
 
 	[SerializeField] CameraCollision m_CameraCollision;
 
+
 	void Start()
 	{
 		Cursor.lockState = CursorLockMode.Locked;
@@ -36,8 +37,11 @@ public class CameraController : MonoBehaviour, IRestartGameElement
 
 		m_StartPitch = transform.eulerAngles.x;
 		m_StartYaw = transform.eulerAngles.y;
+		m_StartPosition = m_LookAt.position - transform.position;
+
 		GameController.GetGameController().AddRestartGameElement(this);
 	}
+
 	void OnApplicationFocus()
 	{
 		if(m_CursorLocked)
@@ -103,10 +107,18 @@ public class CameraController : MonoBehaviour, IRestartGameElement
 	{
 		return Vector3.Lerp(transform.position, l_DesiredPosition, Time.deltaTime * m_InterpolationSpeed);
 	}
+
+	public void RepositionCamera()
+	{
+		transform.eulerAngles = new Vector3(m_StartPitch, m_StartYaw, 0);
+		transform.position = m_LookAt.position - m_StartPosition;
+	}
+
+
 	
 	public void RestartGame()
     {
-        // TODO I AFEGIR AL START EL GAMECONTROLLER
+        RepositionCamera();
     }
 
 #if UNITY_EDITOR

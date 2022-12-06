@@ -17,10 +17,9 @@ public class CameraController : MonoBehaviour, IRestartGameElement
 	[SerializeField] bool m_InterpolationActive = true;
 
 	Vector3 m_Direction = Vector3.zero;
-
-	float m_StartPitch, m_StartYaw;
-	Vector3 m_StartPosition;
 	bool m_Restarting = false;
+
+	[SerializeField] Transform m_RestartDummy;
 	
 	[Header("Debug")]
 	public KeyCode m_DebugLockAngleKeyCode=KeyCode.I;
@@ -36,11 +35,9 @@ public class CameraController : MonoBehaviour, IRestartGameElement
 		Cursor.lockState = CursorLockMode.Locked;
 		m_CursorLocked = true;
 
-		m_StartPitch = transform.eulerAngles.x;
-		m_StartYaw = transform.eulerAngles.y;
-		m_StartPosition = m_LookAt.position - transform.position;
-
 		GameController.GetGameController().AddRestartGameElement(this);
+		m_RestartDummy.position = transform.position;
+		m_RestartDummy.rotation = transform.rotation;
 	}
 
 	void OnApplicationFocus()
@@ -132,23 +129,28 @@ public class CameraController : MonoBehaviour, IRestartGameElement
 
 	void InterpolateToStartPosition()
 	{
-		transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, new Vector3(m_StartPitch, m_StartYaw, 0), Time.deltaTime * m_InterpolationSpeed);
-		transform.position = Vector3.Lerp(transform.position, m_LookAt.position - m_StartPosition, Time.deltaTime * m_InterpolationSpeed);
+		Debug.Log("Interpolating to start position");
+		float l_StartPitch = m_RestartDummy.eulerAngles.x;
+		float l_StartYaw = m_RestartDummy.eulerAngles.y;
+		transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, new Vector3(l_StartPitch, l_StartYaw, 0), Time.deltaTime * m_InterpolationSpeed);
+		transform.position = Vector3.Lerp(transform.position, m_RestartDummy.position, Time.deltaTime * m_InterpolationSpeed);
 		if (IsCameraInStartPosition()) m_Restarting = false;
 	}
 
 	bool IsCameraInStartPosition()
 	{
-		return Vector3.Distance(transform.eulerAngles, new Vector3(m_StartPitch, m_StartYaw, 0)) < 0.1f 
-			&& Vector3.Distance(transform.position, m_LookAt.position - m_StartPosition) < 0.1f;
+		float l_StartPitch = m_RestartDummy.eulerAngles.x;
+		float l_StartYaw = m_RestartDummy.eulerAngles.y;
+		return Vector3.Distance(transform.eulerAngles, new Vector3(l_StartPitch, l_StartYaw, 0)) < 0.1f 
+			&& Vector3.Distance(transform.position, m_RestartDummy.position) < 0.1f;
 	}
 
 	public void RepositionCamera() { m_Restarting = true; }
 	
 	public void RestartGame()
     {
-        transform.eulerAngles = new Vector3(m_StartPitch, m_StartYaw, 0);
-		transform.position = m_LookAt.position - m_StartPosition;
+        transform.eulerAngles = m_RestartDummy.eulerAngles;
+		transform.position = m_RestartDummy.position;
     }
 
 #if UNITY_EDITOR

@@ -6,10 +6,8 @@ public class Superstar : MonoBehaviour, IRestartGameElement, IPickable
 {
     bool m_HasStartedDeactivation = false;
     float m_DeactivationSpeed = 4.0f;
-    float m_TimeToPrepareHud = 2f;
     [SerializeField] Material m_LockedMaterial, m_UnlockedMaterial;
     [SerializeField] GameObject m_MyStar, m_MyCounter;
-    [SerializeField] HUD m_HUD;
 
     void Start()
     {
@@ -36,8 +34,6 @@ public class Superstar : MonoBehaviour, IRestartGameElement, IPickable
             yield return null;
         }
         ChangeColours();
-        m_HUD.PrepareHUDToRestartGame();
-        yield return new WaitForSeconds(m_TimeToPrepareHud);
         GameController.GetGameController().RestartGame();
         m_HasStartedDeactivation = false;
     }

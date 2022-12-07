@@ -8,6 +8,9 @@ public class GameController : MonoBehaviour
     List<IRestartGameElement> m_RestartGameElements = new List<IRestartGameElement>();
     DependencyInjector m_DependencyInjector;
 
+    [SerializeField] HUD m_HUD;
+    float m_TimeToPrepareHud = 2f;
+
     static public GameController GetGameController()
     {
         if (m_GameController == null)
@@ -25,6 +28,8 @@ public class GameController : MonoBehaviour
         m_DependencyInjector = l_GameObject.AddComponent<DependencyInjector>();
         gameObject.AddComponent<ScoreManager>();
         gameObject.AddComponent<StarManager>();
+        // Find first HUD in all the scene
+        m_HUD = FindObjectOfType<HUD>();
     }
 
     public DependencyInjector GetDependencyInjector()
@@ -39,6 +44,13 @@ public class GameController : MonoBehaviour
 
     public void RestartGame()
     {
+        StartCoroutine(RestartGameCoroutine());
+    }
+
+    IEnumerator RestartGameCoroutine()
+    {
+        m_HUD.PrepareHUDToRestartGame();
+        yield return new WaitForSeconds(m_TimeToPrepareHud);
         foreach (IRestartGameElement l_RestartGameElement in m_RestartGameElements)
             l_RestartGameElement.RestartGame();
     }

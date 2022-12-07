@@ -28,7 +28,7 @@ public class GameController : MonoBehaviour
         m_DependencyInjector = l_GameObject.AddComponent<DependencyInjector>();
         gameObject.AddComponent<ScoreManager>();
         gameObject.AddComponent<StarManager>();
-        // Find first HUD in all the scene
+        gameObject.AddComponent<LifeManager>();
         m_HUD = FindObjectOfType<HUD>();
     }
 

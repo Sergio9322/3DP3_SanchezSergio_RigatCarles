@@ -1233,6 +1233,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   score: {fileID: 8467974198447726710}
   superstars: {fileID: 3067526992734900104}
+  lifes: {fileID: 6914790620753237671}
   m_StartPanelAnimation: {fileID: 0}
 --- !u!1 &6914790620410396963
 GameObject:

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class HUD : MonoBehaviour, IRestartGameElement
 {
-	public Text score, superstars;
+	public Text score, superstars, lifes;
 	float m_TimeToStartAnimation = 9.5f;
 	bool m_HasStartedAnimation = false;
 	[SerializeField] Animation m_StartPanelAnimation;
@@ -14,6 +14,7 @@ public class HUD : MonoBehaviour, IRestartGameElement
 	{
         InitialiseScore();
 		InitialiseSuperstars();
+		InitialiseLifes();
 		GameController.GetGameController().AddRestartGameElement(this);
 	}
 
@@ -29,6 +30,13 @@ public class HUD : MonoBehaviour, IRestartGameElement
 		IStarManager l_IStarManager = GameController.GetGameController().GetDependencyInjector().GetDependency<IStarManager>();
 		l_IStarManager.starChangedDelegate += updateSuperstars;
 		updateSuperstars(l_IStarManager);
+	}
+
+	void InitialiseLifes()
+	{
+		ILifeManager l_ILifeManager = GameController.GetGameController().GetDependencyInjector().GetDependency<ILifeManager>();
+		l_ILifeManager.lifeChangedDelegate += updateLifes;
+		updateLifes(l_ILifeManager);
 	}
 
 	private void Update()
@@ -48,6 +56,11 @@ public class HUD : MonoBehaviour, IRestartGameElement
 	public void updateSuperstars(IStarManager starManager)
 	{
 		superstars.text = starManager.getStars().ToString("0");
+	}
+
+	public void updateLifes(ILifeManager lifeManager)
+	{
+		lifes.text = lifeManager.getLifes().ToString("0");
 	}
 
 	void CheckStartAnimation()

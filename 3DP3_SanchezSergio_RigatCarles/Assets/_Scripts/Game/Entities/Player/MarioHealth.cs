@@ -22,6 +22,7 @@ public class MarioHealth : MonoBehaviour, IRestartGameElement
         m_Health = m_MaxHealth;
         GameController.GetGameController().AddRestartGameElement(this);
         InitialiseHealthBar();
+        GameController.GetGameController().GetDependencyInjector().GetDependency<ILifeManager>().setLifes(m_Lifes);
     }
 
     public void TakeDamage(int damage)
@@ -59,6 +60,7 @@ public class MarioHealth : MonoBehaviour, IRestartGameElement
         {
             m_Lifes--;
             GameController.GetGameController().RestartGame();
+            GameController.GetGameController().GetDependencyInjector().GetDependency<ILifeManager>().setLifes(m_Lifes);
         }
     }
 

@@ -76,6 +76,9 @@ public class MarioController : MonoBehaviour, IRestartGameElement
 
     MarioHealth m_MarioHealth;
 
+    [Header("Hit")]
+    [SerializeField] float m_HitForce = 10f;
+
     void Awake()
     {
         GameController.GetGameController();
@@ -267,7 +270,9 @@ public class MarioController : MonoBehaviour, IRestartGameElement
             // TODO: Take damage
             m_MarioHealth.TakeDamage(l_Goomba.GetDamageAmount());
             Debug.Log("Take damage");
-            // TODO: moure Goomba i Mario en (posGoomba - posMario).normalized * m_HitVelocity * Time.deltaTime;
+            // TODO: moure Goomba i Mario en (posGoomba - posMario).normalized * m_HitVelocity * Time.deltaTime;´
+            Vector3 l_Direction = (l_Goomba.transform.position - transform.position).normalized;
+            l_Goomba.GetImpulsed(l_Direction*m_HitForce);
         }
     }
 

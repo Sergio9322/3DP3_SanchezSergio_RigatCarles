@@ -3257,6 +3257,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  m_HitForce: 10
 --- !u!143 &1923232286
 CharacterController:
   m_ObjectHideFlags: 0
@@ -3988,6 +3989,10 @@ PrefabInstance:
     - target: {fileID: 7048145255007490125, guid: 5aab010d03cb6ba408cbaec886d67a8e, type: 3}
       propertyPath: timeToAttack
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8730048488574104621, guid: 5aab010d03cb6ba408cbaec886d67a8e, type: 3}
+      propertyPath: m_HitDuration
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5aab010d03cb6ba408cbaec886d67a8e, type: 3}

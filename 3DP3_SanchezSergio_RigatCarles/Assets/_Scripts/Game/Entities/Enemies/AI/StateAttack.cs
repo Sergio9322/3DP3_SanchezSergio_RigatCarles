@@ -26,7 +26,7 @@ public class StateAttack : MonoBehaviour, IStateAI
 
     void Update()
     {
-        if (stateManager.IsState(state))
+        if (stateManager.IsState(state) && agent.enabled)
         {
             if (!initialised) Initialise();
             UpdateState();
@@ -47,7 +47,8 @@ public class StateAttack : MonoBehaviour, IStateAI
     
     public void UpdateState()
     {
-        agent.Move(chaseDirection * chaseSpeed * Time.deltaTime);
+        if (agent.enabled)
+            agent.Move(chaseDirection * chaseSpeed * Time.deltaTime);
     }
 
     public void ChangeState()

@@ -32,7 +32,7 @@ public class StatePatrol : MonoBehaviour, IStateAI
 
     void Update()
     {
-        if (stateManager.IsState(state))
+        if (stateManager.IsState(state) && agent.enabled)
         {
             if (!initialised) Initialise();
             UpdateState();

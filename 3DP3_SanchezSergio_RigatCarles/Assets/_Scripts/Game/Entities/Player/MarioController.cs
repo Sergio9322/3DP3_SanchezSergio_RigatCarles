@@ -16,6 +16,8 @@ public class MarioController : MonoBehaviour, IRestartGameElement
     [SerializeField] Camera cam;
     [SerializeField] CharacterController charController;
     [SerializeField] Animator animator;
+    [SerializeField] ParticleSystem particleRun;
+    [SerializeField] ParticleSystem particleJump;
 
     [SerializeField] float walkSpeed;
     [SerializeField] float runSpeed;
@@ -67,7 +69,6 @@ public class MarioController : MonoBehaviour, IRestartGameElement
     [Header("Special Idle")]
     [SerializeField] float secsToSpecialIdle = 10;
     float waitingCounterIdle = 0f;
-    bool specialIdle = false;
 
     [Header("Camera Comeback")]
     [SerializeField] float secsToCameraComeback = 5;
@@ -180,6 +181,7 @@ public class MarioController : MonoBehaviour, IRestartGameElement
         }
         if (Input.GetKeyDown(jumpKey) && jumpCounter < maxJumps && currentSpeed < runSpeed)
         {
+            if (jumpCounter == 0) particleJump.Play();
             m_VerticalSpeed = jumpSpeed;
             jumpCounter++;
             ResetWaitingCounter();
@@ -190,6 +192,7 @@ public class MarioController : MonoBehaviour, IRestartGameElement
             movement = movement.normalized* currentSpeed* Time.deltaTime;
             transform.forward = movement;
             animator.SetFloat("speed", currentSpeed);
+            if (currentSpeed == runSpeed && onGround) particleRun.Play();
             ResetWaitingCounter();
         }
         else { animator.SetFloat("speed", 0.0f); }

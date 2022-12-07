@@ -16,6 +16,7 @@ public class MarioHealth : MonoBehaviour, IRestartGameElement
 
     [SerializeField] float m_DelayBetweenLife = 1f;
     [SerializeField] float m_RespawnDelay = 5f;
+    [SerializeField] Animator animator;
 
     void Start()
     {
@@ -27,6 +28,7 @@ public class MarioHealth : MonoBehaviour, IRestartGameElement
 
     public void TakeDamage(int damage)
     {
+        animator.SetTrigger("getHit");
         m_HealthBar.SetActive(true);
         StartCoroutine(UpdateHealthBar(damage));
     }
@@ -51,17 +53,20 @@ public class MarioHealth : MonoBehaviour, IRestartGameElement
             yield return new WaitForSeconds(m_DelayBetweenLife);
             SubstractDamage();
         }
+        
     }
 
     void SubstractDamage()
     {
         m_Health -= 1;
+        animator.SetInteger("health", m_Health);
         if (m_Health <= 0)
         {
             m_Lifes--;
             GameController.GetGameController().RestartGame();
             GameController.GetGameController().GetDependencyInjector().GetDependency<ILifeManager>().setLifes(m_Lifes);
         }
+        
     }
 
     void RespawnHealthBar()

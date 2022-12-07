@@ -93,6 +93,7 @@ public class StateDie : MonoBehaviour, IStateAI, IRestartGameElement
 
     public void RestartGame()
     {
+        initialised = false;
         transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
         gameObject.SetActive(true);
         m_Alive = true;

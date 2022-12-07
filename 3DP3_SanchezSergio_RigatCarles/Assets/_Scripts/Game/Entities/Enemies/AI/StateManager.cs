@@ -6,13 +6,17 @@ public class StateManager : MonoBehaviour, IRestartGameElement
 {
     [SerializeField] State currentState = State.PATROL;
 
+    void Start()
+    {
+        GameController.GetGameController().AddRestartGameElement(this);
+    }
+
     public bool IsState(State state) { return currentState == state; }
     public void SetState(State state) { currentState = state; CheckDied(state); }
 
     public void RestartGame()
     {
         currentState = State.PATROL;
-        Debug.Log("Restarting StateManager");
         GetComponent<Goomba>().SetAlive(true);
     }
 

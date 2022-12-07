@@ -18,6 +18,8 @@ public class AnimatorEventConsumer : MonoBehaviour
     [SerializeField] AudioClip sound_punch2;
     [SerializeField] AudioClip sound_punch3;
     [SerializeField] AudioClip sound_longJump;
+    [SerializeField] AudioClip sound_hit;
+    [SerializeField] AudioClip sound_dead;
 
     [Header("Steps")]
     [SerializeField] AudioSource stepsAudioSource;
@@ -94,5 +96,15 @@ public class AnimatorEventConsumer : MonoBehaviour
     void FinishPunch()
     {
 
+    }
+
+    void HitSound()
+    {
+        audioSource.PlayOneShot(sound_hit);
+    }
+
+    void ground_knockback()
+    {
+        audioSource.PlayOneShot(sound_dead);
     }
 }

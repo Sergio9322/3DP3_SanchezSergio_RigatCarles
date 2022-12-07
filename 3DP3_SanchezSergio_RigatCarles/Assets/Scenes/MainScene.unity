@@ -3644,9 +3644,25 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 793272126}
+    - target: {fileID: 5041302253927118081, guid: 56ed165b4d5f9404298b55277c453adb, type: 3}
+      propertyPath: m_UiScaleMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5041302253927118081, guid: 56ed165b4d5f9404298b55277c453adb, type: 3}
+      propertyPath: m_ReferenceResolution.x
+      value: 1920
+      objectReference: {fileID: 0}
+    - target: {fileID: 5041302253927118081, guid: 56ed165b4d5f9404298b55277c453adb, type: 3}
+      propertyPath: m_ReferenceResolution.y
+      value: 1080
+      objectReference: {fileID: 0}
     - target: {fileID: 5041302253927118092, guid: 56ed165b4d5f9404298b55277c453adb, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5041302254137569793, guid: 56ed165b4d5f9404298b55277c453adb, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5041302254263592943, guid: 56ed165b4d5f9404298b55277c453adb, type: 3}
       propertyPath: m_fontColor32.rgba

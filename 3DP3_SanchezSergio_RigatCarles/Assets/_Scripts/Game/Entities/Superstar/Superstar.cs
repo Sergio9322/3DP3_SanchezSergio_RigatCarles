@@ -6,6 +6,11 @@ public class Superstar : MonoBehaviour, IRestartGameElement, IPickable
 {
     bool m_HasStartedDeactivation = false;
     float m_DeactivationSpeed = 4.0f;
+    float m_TimeToPrepareHud = 2f;
+    [SerializeField] Material m_LockedMaterial, m_UnlockedMaterial;
+    [SerializeField] GameObject m_MyStar, m_MyCounter;
+    [SerializeField] HUD m_HUD;
+
     void Start()
     {
         GameController.GetGameController().AddRestartGameElement(this);
@@ -30,13 +35,22 @@ public class Superstar : MonoBehaviour, IRestartGameElement, IPickable
             transform.localScale = new Vector3(l_Scale, l_Scale, l_Scale);
             yield return null;
         }
-        
-        gameObject.SetActive(false);
+        ChangeColours();
+        m_HUD.PrepareHUDToRestartGame();
+        yield return new WaitForSeconds(m_TimeToPrepareHud);
+        GameController.GetGameController().RestartGame();
         m_HasStartedDeactivation = false;
+    }
+
+    void ChangeColours()
+    {
+        m_MyStar.GetComponent<Renderer>().material = m_LockedMaterial;
+        m_MyCounter.GetComponent<Renderer>().material = m_UnlockedMaterial;
     }
 
     public void RestartGame()
     {
         gameObject.SetActive(true);
+        transform.localScale = Vector3.one;
     }
 }

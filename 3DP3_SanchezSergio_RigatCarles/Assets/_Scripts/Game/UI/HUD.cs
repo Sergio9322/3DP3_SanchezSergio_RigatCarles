@@ -8,6 +8,7 @@ public class HUD : MonoBehaviour, IRestartGameElement
 	public Text score, superstars;
 	float m_TimeToStartAnimation = 9.5f;
 	bool m_HasStartedAnimation = false;
+	[SerializeField] Animation m_StartPanelAnimation;
 
 	private void Start()
 	{
@@ -63,5 +64,11 @@ public class HUD : MonoBehaviour, IRestartGameElement
 	{
 		m_TimeToStartAnimation = 6.5f;
 		m_HasStartedAnimation = false;
+	}
+
+	public void PrepareHUDToRestartGame()
+	{
+		GetComponent<Animation>().Play("ExitUIAnimation");
+		m_StartPanelAnimation.Play("ReenterStartPanelAnimation");
 	}
 }

@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(StateManager))]
-public class Goomba : MonoBehaviour
+public class Goomba : MonoBehaviour, IRestartGameElement
 {
     bool m_CanDoDamage = true;
     [SerializeField] float m_DamageInterval = 1.0f;
     [SerializeField] int  m_Damage = 1;
+    Vector3 m_InitialPosition, m_InitialScale, m_InitialRotation;
     
     StateManager m_StateManager;
     bool m_Alive = true;
@@ -16,6 +17,14 @@ public class Goomba : MonoBehaviour
     void Awake()
     {
         m_StateManager = GetComponent<StateManager>();
+    }
+
+    void Start()
+    {
+        GameController.GetGameController().AddRestartGameElement(this);
+        m_InitialPosition = transform.position;
+        m_InitialScale = transform.localScale;
+        m_InitialRotation = transform.eulerAngles;
     }
 
     void OnTriggerEnter(Collider other)
@@ -50,4 +59,12 @@ public class Goomba : MonoBehaviour
     }
     
     public int GetDamageAmount() { return m_Damage; }
+
+    public void RestartGame()
+    {
+        m_Alive = true;
+        transform.position = m_InitialPosition;
+        transform.localScale = m_InitialScale;
+        transform.eulerAngles = m_InitialRotation;
+    }
 }

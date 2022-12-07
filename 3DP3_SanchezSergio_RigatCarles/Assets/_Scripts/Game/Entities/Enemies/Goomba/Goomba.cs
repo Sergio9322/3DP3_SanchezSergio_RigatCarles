@@ -7,6 +7,7 @@ public class Goomba : MonoBehaviour
 {
     bool m_CanDoDamage = true;
     [SerializeField] float m_DamageInterval = 1.0f;
+    [SerializeField] int  m_Damage = 1;
     
     StateManager m_StateManager;
     bool m_Alive = true;
@@ -48,5 +49,5 @@ public class Goomba : MonoBehaviour
         m_CanDoDamage = true;
     }
     
-    
+    public int GetDamageAmount() { return m_Damage; }
 }

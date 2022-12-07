@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+[RequireComponent(typeof(MarioHealth))]
 public class MarioController : MonoBehaviour, IRestartGameElement
 {
     public enum TPunchType
@@ -73,6 +74,8 @@ public class MarioController : MonoBehaviour, IRestartGameElement
     float waitingCounterCamera = 0f;
     [SerializeField] UnityEvent m_CameraComebackEvent;
 
+    MarioHealth m_MarioHealth;
+
     void Awake()
     {
         GameController.GetGameController();
@@ -84,6 +87,7 @@ public class MarioController : MonoBehaviour, IRestartGameElement
         m_LeftHandCollider.gameObject.SetActive(false);
         m_RightHandCollider.gameObject.SetActive(false);
         m_KickCollider.gameObject.SetActive(false);
+        m_MarioHealth = GetComponent<MarioHealth>();
 
         m_StartPosition = transform.position;
         m_StartRotation = transform.rotation;
@@ -256,6 +260,7 @@ public class MarioController : MonoBehaviour, IRestartGameElement
         else if (l_Goomba.TryGetDamage())
         {
             // TODO: Take damage
+            m_MarioHealth.TakeDamage(l_Goomba.GetDamageAmount());
             Debug.Log("Take damage");
             // TODO: moure Goomba i Mario en (posGoomba - posMario).normalized * m_HitVelocity * Time.deltaTime;
         }

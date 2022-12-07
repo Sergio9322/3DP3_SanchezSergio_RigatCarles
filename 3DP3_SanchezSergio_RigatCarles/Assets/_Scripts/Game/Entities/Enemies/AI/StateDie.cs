@@ -13,6 +13,7 @@ public class StateDie : MonoBehaviour, IStateAI, IRestartGameElement
     bool initialised = false;
 
     public float m_DeadTime = 0.5f;
+    public float m_TimeHitImpulseAndDie = 1f;
     bool m_Alive = true;
 
     void Awake()
@@ -70,11 +71,24 @@ public class StateDie : MonoBehaviour, IStateAI, IRestartGameElement
 
     IEnumerator KillHittingCoroutine()
     {
-        // TODO: Fer sortir disparat
-        yield return new WaitForSeconds(m_DeadTime);
+        ImpulseFarAway();
+        yield return new WaitForSeconds(m_TimeHitImpulseAndDie);
+        float l_ScaleSpeed = 0.01f;
+        while(transform.localScale.y > 0.1f)
+        {
+            transform.localScale = new Vector3(transform.localScale.x - l_ScaleSpeed , transform.localScale.y - l_ScaleSpeed, transform.localScale.z - l_ScaleSpeed);
+            yield return null;
+        }
         gameObject.SetActive(false);
         m_Alive = false;
         // TODO: Particles
+    }
+
+    void ImpulseFarAway()
+    {
+        Vector3 l_Direction = transform.position - player.transform.position;
+        if (this.TryGetComponent(out Impulsable l_GoombaImpulsable))
+            l_GoombaImpulsable.GetImpulsed(l_Direction);
     }
 
     public void RestartGame()

@@ -76,9 +76,6 @@ public class MarioController : MonoBehaviour, IRestartGameElement
 
     MarioHealth m_MarioHealth;
 
-    [Header("Hit")]
-    [SerializeField] float m_HitForce = 10f;
-
     void Awake()
     {
         GameController.GetGameController();
@@ -273,9 +270,9 @@ public class MarioController : MonoBehaviour, IRestartGameElement
             // TODO: moure Goomba i Mario en (posGoomba - posMario).normalized * m_HitVelocity * Time.deltaTime;´
             Vector3 l_Direction = (l_Goomba.transform.position - transform.position).normalized;
             if (l_Goomba.TryGetComponent(out Impulsable l_GoombaImpulsable))
-                l_GoombaImpulsable.GetImpulsed(l_Direction*m_HitForce);
+                l_GoombaImpulsable.GetImpulsed(l_Direction);
             if (this.TryGetComponent(out Impulsable l_MarioImpulsable))
-                l_MarioImpulsable.GetImpulsed(-l_Direction*m_HitForce);
+                l_MarioImpulsable.GetImpulsed(-l_Direction);
         }
     }
 

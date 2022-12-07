@@ -12,6 +12,7 @@ public class StateManager : MonoBehaviour, IRestartGameElement
     public void RestartGame()
     {
         currentState = State.PATROL;
+        Debug.Log("Restarting StateManager");
         GetComponent<Goomba>().SetAlive(true);
     }
 

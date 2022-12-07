@@ -245,19 +245,24 @@ public class MarioController : MonoBehaviour, IRestartGameElement
         }
         else if (l_Hit.collider.tag == "Goomba" )
         {
-            Goomba l_Goomba = l_Hit.collider.GetComponentInParent<Goomba>();
+            Goomba l_Goomba = l_Hit.collider.GetComponent<Goomba>();
             if (l_Goomba.IsAlive()) GoombaHit(l_Goomba, l_Hit);
         }
     }
 
-    void GoombaHit(Goomba l_Goomba, ControllerColliderHit l_Hit)
+    public void GoombaHit(Goomba l_Goomba, ControllerColliderHit l_Hit)
     {
         if (CanKillWithFeet(l_Hit.normal))
         {
             l_Goomba.KillJumping();
             JumpOverEnemy();
         }
-        else if (l_Goomba.TryGetDamage())
+        else GoombaHit(l_Goomba);
+    }
+
+    public void GoombaHit(Goomba l_Goomba)
+    {
+        if (l_Goomba.TryGetDamage())
         {
             // TODO: Take damage
             m_MarioHealth.TakeDamage(l_Goomba.GetDamageAmount());

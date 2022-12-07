@@ -33,6 +33,11 @@ public class Goomba : MonoBehaviour, IRestartGameElement
         {
             this.KillHitting();
         }
+        if (other.GetComponent<Collider>().tag == "Player" )
+        {
+            MarioController l_MarioController = other.GetComponent<Collider>().GetComponent<MarioController>();
+            if (this.IsAlive()) l_MarioController.GoombaHit(this);
+        }
     }
     
     public void KillJumping() { m_StateManager.SetState(State.DIE_JUMP); }

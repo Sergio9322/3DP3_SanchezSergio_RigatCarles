@@ -60,24 +60,6 @@ Transform:
   m_Father: {fileID: 8625926504030803913}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!143 &1320947999732587831
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1320947999934511025}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Height: 2
-  m_Radius: 0.5
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0.88, z: 0}
 --- !u!1 &2952126843438301581
 GameObject:
   m_ObjectHideFlags: 0
@@ -93,9 +75,11 @@ GameObject:
   - component: {fileID: 8310525068791976385}
   - component: {fileID: 7048145255007490125}
   - component: {fileID: 51348785037855167}
+  - component: {fileID: 8276412455567051775}
+  - component: {fileID: 1815507381166186935}
   m_Layer: 0
   m_Name: GoombaAI
-  m_TagString: Untagged
+  m_TagString: Goomba
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -128,8 +112,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79a3f6cbce2f37944ae1dfc6f2472221, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_DeadTime: 0.5
   m_DamageInterval: 1
+  m_Damage: 1
 --- !u!114 &315509579449520125
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -224,6 +208,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chaseRange: 6
   chaseSpeed: 4
+--- !u!143 &8276412455567051775
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2952126843438301581}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Height: 2
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0.88, z: 0}
+--- !u!136 &1815507381166186935
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2952126843438301581}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.67
+  m_Height: 1.87
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.58, z: 0}
 --- !u!1 &3476902030597717992
 GameObject:
   m_ObjectHideFlags: 0
@@ -235,7 +251,7 @@ GameObject:
   - component: {fileID: 4035898376652929357}
   m_Layer: 0
   m_Name: Goomba
-  m_TagString: Untagged
+  m_TagString: Goomba
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -476,11 +492,6 @@ PrefabInstance:
       objectReference: {fileID: 9100000, guid: 485c732a6ec126f44bf33066d4407954, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0dc47b9b8a69aca49a111614ec2274be, type: 3}
---- !u!1 &1320947999934511025 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 100010, guid: 0dc47b9b8a69aca49a111614ec2274be, type: 3}
-  m_PrefabInstance: {fileID: 1320947999934411035}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1320947999934540689 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400010, guid: 0dc47b9b8a69aca49a111614ec2274be, type: 3}

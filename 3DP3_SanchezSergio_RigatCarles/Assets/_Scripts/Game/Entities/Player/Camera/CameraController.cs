@@ -129,23 +129,22 @@ public class CameraController : MonoBehaviour, IRestartGameElement
 
 	void InterpolateToStartPosition()
 	{
-		Debug.Log("Interpolating to start position");
 		float l_StartPitch = m_RestartDummy.eulerAngles.x;
 		float l_StartYaw = m_RestartDummy.eulerAngles.y;
 		transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, new Vector3(l_StartPitch, l_StartYaw, 0), Time.deltaTime * m_InterpolationSpeed);
 		transform.position = Vector3.Lerp(transform.position, m_RestartDummy.position, Time.deltaTime * m_InterpolationSpeed);
-		if (IsCameraInStartPosition()) m_Restarting = false;
+		if (IsCameraNearStartPosition(0.1f, 0.1f)) m_Restarting = false;
 	}
 
-	bool IsCameraInStartPosition()
+	bool IsCameraNearStartPosition(float f_YawPitchMargin, float f_PosMargin)
 	{
 		float l_StartPitch = m_RestartDummy.eulerAngles.x;
 		float l_StartYaw = m_RestartDummy.eulerAngles.y;
-		return Vector3.Distance(transform.eulerAngles, new Vector3(l_StartPitch, l_StartYaw, 0)) < 0.1f 
-			&& Vector3.Distance(transform.position, m_RestartDummy.position) < 0.1f;
+		return Vector3.Distance(transform.eulerAngles, new Vector3(l_StartPitch, l_StartYaw, 0)) < f_YawPitchMargin
+			&& Vector3.Distance(transform.position, m_RestartDummy.position) < f_PosMargin;
 	}
 
-	public void RepositionCamera() { m_Restarting = true; }
+	public void RepositionCamera() { if (!IsCameraNearStartPosition(15f, 1f)) m_Restarting = true; }
 	
 	public void RestartGame()
     {

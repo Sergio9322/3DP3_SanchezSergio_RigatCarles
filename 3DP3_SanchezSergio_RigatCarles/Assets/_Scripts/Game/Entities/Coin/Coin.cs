@@ -38,5 +38,6 @@ public class Coin : MonoBehaviour, IRestartGameElement, IPickable
     public void RestartGame()
     {
         gameObject.SetActive(true);
+        transform.localScale = Vector3.one;
     }
 }

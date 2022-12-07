@@ -786,13 +786,14 @@ GameObject:
   - component: {fileID: 6914790619223156296}
   - component: {fileID: 6914790619223156298}
   - component: {fileID: 6914790619223156297}
+  - component: {fileID: 7557622412364501627}
   m_Layer: 5
   m_Name: HealthBar
-  m_TagString: Untagged
+  m_TagString: HealthBar
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6914790619223156296
 RectTransform:
   m_ObjectHideFlags: 0
@@ -855,6 +856,23 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!111 &7557622412364501627
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6914790619223156303}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 2affa755a1ea31844858344ad30c4c0c, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 2affa755a1ea31844858344ad30c4c0c, type: 2}
+  - {fileID: 7400000, guid: 2d5be3cfee5a8b643aa9b083f99c0ad6, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1 &6914790619229928850
 GameObject:
   m_ObjectHideFlags: 0
@@ -1215,6 +1233,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   score: {fileID: 8467974198447726710}
   superstars: {fileID: 3067526992734900104}
+  m_StartPanelAnimation: {fileID: 0}
 --- !u!1 &6914790620410396963
 GameObject:
   m_ObjectHideFlags: 0

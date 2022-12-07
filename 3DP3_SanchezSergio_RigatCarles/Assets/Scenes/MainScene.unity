@@ -3527,6 +3527,7 @@ MonoBehaviour:
   m_Lifes: 3
   m_Health: 8
   m_MaxHealth: 8
+  m_HealthBar: {fileID: 2104704564}
   m_HealthBarImage: {fileID: 955955889}
   m_HealthBarBackgroundOverlay: {fileID: 603900284}
   m_HealthBarColour:
@@ -3819,6 +3820,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 7487049524233580732, guid: 6d2e89a16f2eb2b4bbb895172652cbb6, type: 3}
   m_PrefabInstance: {fileID: 2068396227}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2104704564 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5041302254754387298, guid: 56ed165b4d5f9404298b55277c453adb, type: 3}
+  m_PrefabInstance: {fileID: 5041302253917677785}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &666639486058528631 stripped
 Transform:

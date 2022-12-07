@@ -272,7 +272,10 @@ public class MarioController : MonoBehaviour, IRestartGameElement
             Debug.Log("Take damage");
             // TODO: moure Goomba i Mario en (posGoomba - posMario).normalized * m_HitVelocity * Time.deltaTime;´
             Vector3 l_Direction = (l_Goomba.transform.position - transform.position).normalized;
-            l_Goomba.GetImpulsed(l_Direction*m_HitForce);
+            if (l_Goomba.TryGetComponent(out Impulsable l_GoombaImpulsable))
+                l_GoombaImpulsable.GetImpulsed(l_Direction*m_HitForce);
+            if (this.TryGetComponent(out Impulsable l_MarioImpulsable))
+                l_MarioImpulsable.GetImpulsed(-l_Direction*m_HitForce);
         }
     }
 

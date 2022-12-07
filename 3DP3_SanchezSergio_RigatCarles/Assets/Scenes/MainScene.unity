@@ -3557,6 +3557,19 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   m_DelayBetweenLife: 0.2
   m_RespawnDelay: 5
+--- !u!114 &1923232293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1923232284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7119afdf531200c4fa7eff0b5a0be088, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HitDuration: 0.5
 --- !u!1 &1946069624
 GameObject:
   m_ObjectHideFlags: 0

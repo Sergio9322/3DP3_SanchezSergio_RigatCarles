@@ -71,12 +71,13 @@ GameObject:
   - component: {fileID: 3578098001550521552}
   - component: {fileID: 8730048488574104621}
   - component: {fileID: 315509579449520125}
-  - component: {fileID: 1129412084410289057}
   - component: {fileID: 8310525068791976385}
   - component: {fileID: 7048145255007490125}
   - component: {fileID: 51348785037855167}
+  - component: {fileID: 1129412084410289057}
   - component: {fileID: 8276412455567051775}
   - component: {fileID: 1815507381166186935}
+  - component: {fileID: 8818202114853595164}
   m_Layer: 0
   m_Name: GoombaAI
   m_TagString: Goomba
@@ -114,6 +115,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_DamageInterval: 1
   m_Damage: 1
+  m_HitDuration: 0.5
 --- !u!114 &315509579449520125
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -127,28 +129,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 0
---- !u!195 &1129412084410289057
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2952126843438301581}
-  m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 3.5
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 2
-  m_BaseOffset: 0
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
 --- !u!114 &8310525068791976385
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -208,6 +188,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chaseRange: 6
   chaseSpeed: 4
+--- !u!195 &1129412084410289057
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2952126843438301581}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!143 &8276412455567051775
 CharacterController:
   m_ObjectHideFlags: 0
@@ -240,6 +242,19 @@ CapsuleCollider:
   m_Height: 1.87
   m_Direction: 1
   m_Center: {x: 0, y: 0.58, z: 0}
+--- !u!114 &8818202114853595164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2952126843438301581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7119afdf531200c4fa7eff0b5a0be088, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HitDuration: 0.5
 --- !u!1 &3476902030597717992
 GameObject:
   m_ObjectHideFlags: 0

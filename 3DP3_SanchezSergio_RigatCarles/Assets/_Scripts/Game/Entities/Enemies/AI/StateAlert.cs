@@ -31,7 +31,7 @@ public class StateAlert : MonoBehaviour, IStateAI
 
     void Update()
     {
-        if (stateManager.IsState(state))
+        if (stateManager.IsState(state) && agent.enabled)
         {
             if (!initialised) Initialise();
             if (!hasSeenPlayer) UpdateState();

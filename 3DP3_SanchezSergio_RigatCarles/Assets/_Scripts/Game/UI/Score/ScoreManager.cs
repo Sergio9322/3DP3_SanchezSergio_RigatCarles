@@ -9,6 +9,7 @@ public class ScoreManager : MonoBehaviour, IScoreManager
 
 	void Awake()
 	{
+		Debug.Log("EIIII, l'SCORE sóc a: "+gameObject);
         GameController.GetGameController().GetDependencyInjector().AddDependency<IScoreManager>(this);
 	}
 	public void addPoints(float points)

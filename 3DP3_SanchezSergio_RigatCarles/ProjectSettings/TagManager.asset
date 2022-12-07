@@ -12,6 +12,7 @@ TagManager:
   - MarioHit
   - MapCollisions
   - PlayerFOV
+  - Pickable
   layers:
   - Default
   - TransparentFX

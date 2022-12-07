@@ -24,6 +24,7 @@ public class GameController : MonoBehaviour
     {
         m_DependencyInjector = l_GameObject.AddComponent<DependencyInjector>();
         gameObject.AddComponent<ScoreManager>();
+        gameObject.AddComponent<StarManager>();
     }
 
     public DependencyInjector GetDependencyInjector()

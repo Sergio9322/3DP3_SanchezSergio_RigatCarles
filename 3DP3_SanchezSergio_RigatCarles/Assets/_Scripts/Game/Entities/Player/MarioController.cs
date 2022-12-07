@@ -292,8 +292,8 @@ public class MarioController : MonoBehaviour, IRestartGameElement
 
         else if (other.tag == "Checkpoint")
             m_CurrentCheckpoint = other.gameObject.GetComponent<Checkpoint>();
-        else if (other.gameObject.tag == "Coin")
-            other.GetComponent<Coin>().Pick();
+        else if (other.gameObject.tag == "Pickable")
+            other.GetComponent<IPickable>().Pick();
     }   
 
     private void OnTriggerStay(Collider other) {

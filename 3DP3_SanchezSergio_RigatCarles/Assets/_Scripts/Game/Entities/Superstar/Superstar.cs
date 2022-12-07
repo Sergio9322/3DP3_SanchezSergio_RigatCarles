@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Coin : MonoBehaviour, IRestartGameElement, IPickable
+public class Superstar : MonoBehaviour, IRestartGameElement, IPickable
 {
     bool m_HasStartedDeactivation = false;
     float m_DeactivationSpeed = 4.0f;
@@ -16,7 +16,7 @@ public class Coin : MonoBehaviour, IRestartGameElement, IPickable
         if (!m_HasStartedDeactivation)
         {
             StartCoroutine(Deactivate());
-            GameController.GetGameController().GetDependencyInjector().GetDependency<IScoreManager>().addPoints(1);
+            GameController.GetGameController().GetDependencyInjector().GetDependency<IStarManager>().addStars(1);
         }
     }
 

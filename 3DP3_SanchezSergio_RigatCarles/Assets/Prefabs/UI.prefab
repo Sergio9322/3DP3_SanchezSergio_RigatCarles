@@ -1214,6 +1214,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   score: {fileID: 8467974198447726710}
+  superstars: {fileID: 3067526992734900104}
 --- !u!1 &6914790620410396963
 GameObject:
   m_ObjectHideFlags: 0

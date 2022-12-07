@@ -6,9 +6,9 @@ using UnityEngine.UI;
 public class HUD : MonoBehaviour, IRestartGameElement
 {
 	public Text score;
-	float m_TimeToStartAnimation = 6.5f;
+	float m_TimeToStartAnimation = 9.5f;
 	bool m_HasStartedAnimation = false;
-	
+
 	private void Start()
 	{
         IScoreManager l_IScoreManager = GameController.GetGameController().GetDependencyInjector().GetDependency<IScoreManager>();

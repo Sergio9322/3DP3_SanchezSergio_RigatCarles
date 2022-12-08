@@ -16,5 +16,10 @@ public class StarManager : MonoBehaviour, IStarManager
 		this.stars += stars;
 		starChangedDelegate?.Invoke(this);
 	}
+	public void setStars(float stars)
+	{
+		this.stars = stars;
+		starChangedDelegate?.Invoke(this);
+	}
 	public float getStars() { return stars; }
 }

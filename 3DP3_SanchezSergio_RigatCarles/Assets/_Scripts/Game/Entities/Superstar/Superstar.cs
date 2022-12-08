@@ -44,6 +44,12 @@ public class Superstar : MonoBehaviour, IRestartGameElement, IPickable
         m_MyCounter.GetComponent<Renderer>().material = m_UnlockedMaterial;
     }
 
+    public void RestartStar()
+    {
+        m_MyStar.GetComponent<Renderer>().material = m_UnlockedMaterial;
+        m_MyCounter.GetComponent<Renderer>().material = m_LockedMaterial;
+    }
+
     public void RestartGame()
     {
         gameObject.SetActive(true);

@@ -16,5 +16,10 @@ public class ScoreManager : MonoBehaviour, IScoreManager
 		this.points += points;
 		scoreChangedDelegate?.Invoke(this);
 	}
+	public void setPoints(float points) 
+	{ 
+		this.points = points; 
+		scoreChangedDelegate?.Invoke(this);
+	}
 	public float getPoints() { return points; }
 }

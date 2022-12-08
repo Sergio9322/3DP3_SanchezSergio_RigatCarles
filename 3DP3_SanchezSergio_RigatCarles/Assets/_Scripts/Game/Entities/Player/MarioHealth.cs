@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class MarioHealth : MonoBehaviour, IRestartGameElement
 {
     [SerializeField] int m_Lifes = 3;
+    [SerializeField] int m_MaxLifes = 3;
     [SerializeField] int m_Health = 8;
     [SerializeField] int m_MaxHealth = 8;
     [SerializeField] GameObject m_HealthBar;
@@ -67,6 +68,11 @@ public class MarioHealth : MonoBehaviour, IRestartGameElement
             GameController.GetGameController().GetDependencyInjector().GetDependency<ILifeManager>().setLifes(m_Lifes);
         }
         
+    }
+
+    public void ResetLifes()
+    {
+        GameController.GetGameController().GetDependencyInjector().GetDependency<ILifeManager>().setLifes(m_MaxLifes);
     }
 
     void RespawnHealthBar()

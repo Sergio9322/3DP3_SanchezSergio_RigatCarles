@@ -8,7 +8,12 @@ public class HUD : MonoBehaviour, IRestartGameElement
 	public Text score, superstars, lifes;
 	float m_TimeToStartAnimation = 9.5f;
 	bool m_HasStartedAnimation = false;
+	float m_WaitToEnterStartPanel = 4f;
+	GameOverPanel m_GameOverPanel;
 	[SerializeField] Animation m_StartPanelAnimation;
+
+	[SerializeField] bool m_HasDied;
+	[SerializeField] bool m_HasLostLife;
 
 	private void Start()
 	{
@@ -16,6 +21,7 @@ public class HUD : MonoBehaviour, IRestartGameElement
 		InitialiseSuperstars();
 		InitialiseLifes();
 		GameController.GetGameController().AddRestartGameElement(this);
+		m_GameOverPanel = FindObjectOfType<GameOverPanel>();
 	}
 
 	void InitialiseScore()
@@ -82,6 +88,15 @@ public class HUD : MonoBehaviour, IRestartGameElement
 	public void PrepareHUDToRestartGame()
 	{
 		GetComponent<Animation>().Play("ExitUIAnimation");
-		m_StartPanelAnimation.Play("ReenterStartPanelAnimation");
+
+		if (m_HasDied) { m_GameOverPanel.ShowGameOverPanel(); m_HasDied = false; StartCoroutine(WaitToEnterStartPanel());}
+        else if (m_HasLostLife) { m_GameOverPanel.ShowLostLifePanel(); m_HasLostLife = false; StartCoroutine(WaitToEnterStartPanel());}
+		else m_StartPanelAnimation.Play("ReenterStartPanelAnimation");
+	}
+
+	IEnumerator WaitToEnterStartPanel()
+	{
+		yield return new WaitForSeconds(m_WaitToEnterStartPanel);
+		m_StartPanelAnimation.Play("StartAnimation");
 	}
 }

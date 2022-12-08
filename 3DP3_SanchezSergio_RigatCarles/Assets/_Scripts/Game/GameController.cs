@@ -8,9 +8,9 @@ public class GameController : MonoBehaviour
     List<IRestartGameElement> m_RestartGameElements = new List<IRestartGameElement>();
     DependencyInjector m_DependencyInjector;
 
-    [SerializeField] HUD m_HUD;
+    HUD m_HUD;
     float m_TimeToPrepareHud = 2f;
-    float m_TimeToEnablePlayerMovement = 8.5f;
+    float m_TimeToEnablePlayerMovement = 9f;
     float m_TimeToReenablePlayerMovement = 5.5f;
 
     static public GameController GetGameController()
@@ -64,6 +64,7 @@ public class GameController : MonoBehaviour
         yield return new WaitForSeconds(m_TimeToPrepareHud);
         foreach (IRestartGameElement l_RestartGameElement in m_RestartGameElements)
             l_RestartGameElement.RestartGame();
+        
         yield return new WaitForSeconds(m_TimeToReenablePlayerMovement);
         f_MarioController.enabled = true;
     }
@@ -77,9 +78,12 @@ public class GameController : MonoBehaviour
         f_MarioController.enabled = true;
     }
 
-    void Update()
+    public void GameOverGame()
     {
-        if (Input.GetKeyDown(KeyCode.R))
-            RestartGame();
+        FindObjectOfType<MarioHealth>().ResetLifes();
+        GameController.GetGameController().GetDependencyInjector().GetDependency<IScoreManager>().setPoints(0);
+        GameController.GetGameController().GetDependencyInjector().GetDependency<IStarManager>().setStars(0);
+        foreach (Superstar star in FindObjectsOfType<Superstar>())
+            star.RestartStar();
     }
 }

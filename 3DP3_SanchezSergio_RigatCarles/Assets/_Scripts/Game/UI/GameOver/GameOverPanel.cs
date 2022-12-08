@@ -14,18 +14,6 @@ public class GameOverPanel : MonoBehaviour
         m_StarMask.SetActive(false);
     }
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            ShowLostLifePanel();
-        }
-        else if (Input.GetKeyDown(KeyCode.O))
-        {
-            ShowGameOverPanel();
-        }
-    }
-
     public void ShowLostLifePanel()
     {
         ActivateCircleMask();
@@ -36,6 +24,9 @@ public class GameOverPanel : MonoBehaviour
     {
         ActivateBowserMask();
         StartCoroutine(FinishPanelCoroutine());
+        GameController.GetGameController().GameOverGame();
+
+        // TODO: Pantalla Final de Cara - Restart o continuar
     }
 
     IEnumerator FinishPanelCoroutine()
@@ -62,6 +53,7 @@ public class GameOverPanel : MonoBehaviour
 
     void ActivateStarMask()
     {
+        Debug.Log("ActivateStarMask");
         m_StarMask.SetActive(true);
         m_BowserMask.SetActive(false);
     }

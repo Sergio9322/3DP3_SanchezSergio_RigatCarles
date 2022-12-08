@@ -6,6 +6,7 @@ public interface IStarManager
 {
 	void addStars(float f);
 	float getStars();
+	void setStars(float f);
 	event StarChanged starChangedDelegate;
 }
 

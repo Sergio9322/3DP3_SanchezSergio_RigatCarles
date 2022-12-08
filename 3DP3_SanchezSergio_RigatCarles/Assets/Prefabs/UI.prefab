@@ -431,7 +431,7 @@ GameObject:
   - component: {fileID: 8140670326055295147}
   - component: {fileID: 3612954606653613637}
   m_Layer: 5
-  m_Name: HealthBarBackground (1)
+  m_Name: Glare
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

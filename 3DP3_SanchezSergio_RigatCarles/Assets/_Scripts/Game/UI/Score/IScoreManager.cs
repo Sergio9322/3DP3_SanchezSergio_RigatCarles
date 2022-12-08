@@ -6,6 +6,7 @@ public interface IScoreManager
 {
 	void addPoints(float f);
 	float getPoints();
+	void setPoints(float f);
 	event ScoreChanged scoreChangedDelegate;
 }
 

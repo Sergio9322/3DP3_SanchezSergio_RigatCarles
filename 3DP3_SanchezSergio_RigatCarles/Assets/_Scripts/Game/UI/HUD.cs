@@ -12,8 +12,8 @@ public class HUD : MonoBehaviour, IRestartGameElement
 	GameOverPanel m_GameOverPanel;
 	[SerializeField] Animation m_StartPanelAnimation;
 
-	[SerializeField] bool m_HasDied;
-	[SerializeField] bool m_HasLostLife;
+	[SerializeField] bool m_HasDied; public void SetHasDied(bool b) { this.m_HasDied = b; }
+	[SerializeField] bool m_HasLostLife; public void SetHasLostLife(bool b) { this.m_HasLostLife = b; }
 
 	private void Start()
 	{

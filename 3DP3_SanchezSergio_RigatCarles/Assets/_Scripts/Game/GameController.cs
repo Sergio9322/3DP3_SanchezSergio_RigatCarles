@@ -86,4 +86,10 @@ public class GameController : MonoBehaviour
         foreach (Superstar star in FindObjectsOfType<Superstar>())
             star.RestartStar();
     }
+
+    public void EvaluateCurrentLife(int l_CurrentLife)
+    {
+        if (l_CurrentLife <= 0) m_HUD.SetHasDied(true);
+        else m_HUD.SetHasLostLife(true);
+    }
 }

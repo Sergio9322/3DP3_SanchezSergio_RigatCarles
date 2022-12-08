@@ -51,8 +51,8 @@ public class MarioHealth : MonoBehaviour, IRestartGameElement
             m_HealthBarImage.color = m_HealthBarColour.Evaluate(m_HealthBarImage.fillAmount);
             m_HealthBarBackgroundOverlay.color = m_HealthBarColour.Evaluate(m_HealthBarImage.fillAmount);
             m_HealthBarBackgroundOverlay.color = new Color(m_HealthBarBackgroundOverlay.color.r, m_HealthBarBackgroundOverlay.color.g, m_HealthBarBackgroundOverlay.color.b, m_BackgroundAlpha * m_HealthBarImage.fillAmount);
-            yield return new WaitForSeconds(m_DelayBetweenLife);
             SubstractDamage();
+            yield return new WaitForSeconds(m_DelayBetweenLife);
         }
         
     }
@@ -64,6 +64,7 @@ public class MarioHealth : MonoBehaviour, IRestartGameElement
         if (m_Health <= 0)
         {
             m_Lifes--;
+            GameController.GetGameController().EvaluateCurrentLife(m_Lifes);
             GameController.GetGameController().RestartGame();
             GameController.GetGameController().GetDependencyInjector().GetDependency<ILifeManager>().setLifes(m_Lifes);
         }

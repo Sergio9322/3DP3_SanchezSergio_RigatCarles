@@ -366,4 +366,6 @@ public class MarioController : MonoBehaviour, IRestartGameElement
         charController.enabled = true;
         ResetWaitingCounter();
     }
+
+    public void SetAnimatorSpeedToZero() { animator.SetFloat("speed", 0.0f); }
 }

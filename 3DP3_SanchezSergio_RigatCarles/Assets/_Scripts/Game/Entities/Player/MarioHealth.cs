@@ -73,7 +73,8 @@ public class MarioHealth : MonoBehaviour, IRestartGameElement
 
     public void ResetLifes()
     {
-        GameController.GetGameController().GetDependencyInjector().GetDependency<ILifeManager>().setLifes(m_MaxLifes);
+        this.m_Lifes = m_MaxLifes;
+        GameController.GetGameController().GetDependencyInjector().GetDependency<ILifeManager>().setLifes(m_Lifes);
     }
 
     void RespawnHealthBar()

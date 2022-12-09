@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 4878885216423013629}
   - component: {fileID: 8678369644690618669}
   - component: {fileID: 6075225635121773686}
+  - component: {fileID: 4730337848362631059}
+  - component: {fileID: 1778174368587799560}
   m_Layer: 0
   m_Name: Checkpoint
   m_TagString: Checkpoint
@@ -60,6 +62,121 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_RespawnPosition: {fileID: 7868001910775543761}
+  m_CheckpointAudioSource: {fileID: 1778174368587799560}
+  m_ActivatedMaterial: {fileID: 2100000, guid: aa64a48ba58cecd45a84b0fe74c969ff, type: 2}
+  m_MeshRenderer: {fileID: 5298360960140042241}
+--- !u!111 &4730337848362631059
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6556199743688494744}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 063e2107385453a4ab88fd44b4f1b954, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 063e2107385453a4ab88fd44b4f1b954, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
+--- !u!82 &1778174368587799560
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6556199743688494744}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: -4704684561053342501, guid: 073dfe0d995b6db409591e2ccf733737, type: 2}
+  m_audioClip: {fileID: 8300000, guid: 0671cb73e5a9c724ca72e39a481bc6f0, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &8194202538511921281
 GameObject:
   m_ObjectHideFlags: 0
@@ -145,10 +262,19 @@ PrefabInstance:
       propertyPath: m_Name
       value: Checkpoint Flag
       objectReference: {fileID: 0}
+    - target: {fileID: 8941836272020958032, guid: 6bf46c7b8be88db4aaefbb8a69b43996, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: eaf9837440b5f794db46761e7daeb88d, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6bf46c7b8be88db4aaefbb8a69b43996, type: 3}
 --- !u!4 &7306013434647454013 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5833405118935362156, guid: 6bf46c7b8be88db4aaefbb8a69b43996, type: 3}
+  m_PrefabInstance: {fileID: 3859663555891743569}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &5298360960140042241 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 8941836272020958032, guid: 6bf46c7b8be88db4aaefbb8a69b43996, type: 3}
   m_PrefabInstance: {fileID: 3859663555891743569}
   m_PrefabAsset: {fileID: 0}

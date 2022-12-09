@@ -138,7 +138,7 @@ GameObject:
   m_Component:
   - component: {fileID: 65067405}
   m_Layer: 0
-  m_Name: MapCollisionsTODOMAKEDEADZONES
+  m_Name: MapCollisions
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12851,6 +12851,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Checkpoint (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 7868001910775543761, guid: dd3527684f220fe4f85b8dadc3f2196e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -2.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 7868001910775543761, guid: dd3527684f220fe4f85b8dadc3f2196e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 4.196
+      objectReference: {fileID: 0}
+    - target: {fileID: 7868001910775543761, guid: dd3527684f220fe4f85b8dadc3f2196e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 2.12
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dd3527684f220fe4f85b8dadc3f2196e, type: 3}
 --- !u!4 &1576902599 stripped
@@ -14161,6 +14173,14 @@ PrefabInstance:
     - target: {fileID: 6556199743688494744, guid: dd3527684f220fe4f85b8dadc3f2196e, type: 3}
       propertyPath: m_Name
       value: Checkpoint
+      objectReference: {fileID: 0}
+    - target: {fileID: 7868001910775543761, guid: dd3527684f220fe4f85b8dadc3f2196e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 2.74
+      objectReference: {fileID: 0}
+    - target: {fileID: 7868001910775543761, guid: dd3527684f220fe4f85b8dadc3f2196e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.12
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dd3527684f220fe4f85b8dadc3f2196e, type: 3}

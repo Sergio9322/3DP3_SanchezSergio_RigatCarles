@@ -36,8 +36,6 @@ public class CameraController : MonoBehaviour, IRestartGameElement
 		m_CursorLocked = true;
 
 		GameController.GetGameController().AddRestartGameElement(this);
-		m_RestartDummy.position = transform.position;
-		m_RestartDummy.rotation = transform.rotation;
 	}
 
 	void OnApplicationFocus()

@@ -18,6 +18,7 @@ public class MarioController : MonoBehaviour, IRestartGameElement
     [SerializeField] Animator animator;
     [SerializeField] ParticleSystem particleRun;
     [SerializeField] ParticleSystem particleJump;
+    [SerializeField] bool enabledInput = true;
 
     [SerializeField] float walkSpeed;
     [SerializeField] float runSpeed;
@@ -76,6 +77,12 @@ public class MarioController : MonoBehaviour, IRestartGameElement
     [SerializeField] UnityEvent m_CameraComebackEvent;
 
     MarioHealth m_MarioHealth;
+
+    [Header("Wall jump")]
+    [SerializeField] float slidingSpeed;
+    bool canWallJump;
+    [SerializeField] float noInputTime = 600f;
+
 
     void Awake()
     {
@@ -143,6 +150,16 @@ public class MarioController : MonoBehaviour, IRestartGameElement
 
     void Update()
     {
+
+        checkFrontCollision();
+        if (canWallJump)
+        {
+            if (Input.GetKeyDown(jumpKey))
+            {
+                WallJump();
+            }
+        }
+
         if(Input.GetMouseButtonDown(0) && CanPunch())
         {
             if (MustStartComboPunch())
@@ -163,11 +180,11 @@ public class MarioController : MonoBehaviour, IRestartGameElement
         right.y = 0.0f;
         right = right.normalized;
         Vector3 movement = Vector3.zero;
-        if (Input.GetKey(fwKey))
+        if (Input.GetKey(fwKey) )
             movement += fw;
-        else if (Input.GetKey(backKey))
+        else if (Input.GetKey(backKey) )
             movement -= fw;
-        if (Input.GetKey(rightKey))
+        if (Input.GetKey(rightKey) )
             movement += right;
         if (Input.GetKey(leftKey))
             movement -= right;
@@ -222,6 +239,44 @@ public class MarioController : MonoBehaviour, IRestartGameElement
         }
         if (touchingCeiling && m_VerticalSpeed > 0.0f) m_VerticalSpeed = 0.0f;
 
+    }
+
+    private void checkFrontCollision()
+    {
+        bool facingDirection = Physics.Raycast(new Ray(new Vector3(transform.position.x, transform.position.y + 1.5f, transform.position.z), transform.forward), 0.7f);
+        if (facingDirection && !onGround)
+        {
+            m_VerticalSpeed = slidingSpeed;
+            canWallJump = true;
+            StartCoroutine(DisableInput());
+            animator.SetTrigger("slide");
+        } else canWallJump = false;
+    }
+
+    private IEnumerator DisableInput()
+    {
+        enabledInput = false;
+        yield return new WaitForSeconds(noInputTime);
+        canWallJump = false;
+        enabledInput = true;
+
+    }
+
+    private void WallJump()
+    {
+        m_VerticalSpeed = jumpSpeed;
+        transform.forward = -transform.forward;
+        StartCoroutine(WallJumpMovement());
+    }
+    private IEnumerator WallJumpMovement()
+    {
+        for (int i = 0; i < 20; i++)
+        {
+            yield return new WaitForEndOfFrame();
+            charController.Move(transform.forward * Time.deltaTime * 2f);
+        }
+        enabledInput = false;
+        canWallJump = false;
     }
 
     void UpdateWaitingCounter()

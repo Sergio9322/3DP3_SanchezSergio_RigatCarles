@@ -29,7 +29,6 @@ public class MarioHealth : MonoBehaviour, IRestartGameElement
 
     public void TakeDamage(int damage)
     {
-        animator.SetTrigger("getHit");
         m_HealthBar.SetActive(true);
         StartCoroutine(UpdateHealthBar(damage));
     }
@@ -60,13 +59,18 @@ public class MarioHealth : MonoBehaviour, IRestartGameElement
     void SubstractDamage()
     {
         m_Health -= 1;
-        animator.SetInteger("health", m_Health);
+        //animator.SetInteger("health", m_Health);
         if (m_Health <= 0)
         {
+            animator.SetTrigger("dead");
             m_Lifes--;
             GameController.GetGameController().EvaluateCurrentLife(m_Lifes);
             GameController.GetGameController().RestartGame();
             GameController.GetGameController().GetDependencyInjector().GetDependency<ILifeManager>().setLifes(m_Lifes);
+        }
+        else
+        {
+            animator.SetTrigger("getHit");
         }
         
     }
@@ -104,5 +108,14 @@ public class MarioHealth : MonoBehaviour, IRestartGameElement
     public void RestartGame()
     {
         RespawnHealthBar();
+    }
+
+    private void OnTriggerEnter(Collider collider)
+    {
+        if (collider.tag == "Deadzone")
+        {
+            Debug.Log("Entra aqui");
+            TakeDamage(70);
+        }
     }
 }

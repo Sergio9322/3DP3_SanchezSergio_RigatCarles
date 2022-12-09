@@ -32,6 +32,12 @@ public class MarioHealth : MonoBehaviour, IRestartGameElement
         m_HealthBar.SetActive(true);
         StartCoroutine(UpdateHealthBar(damage));
     }
+    public void GetHp(int hp)
+    {
+        m_HealthBar.SetActive(true);
+        StartCoroutine(IncreaseHealthBar(hp));
+    }
+
 
     void InitialiseHealthBar()
     {
@@ -54,6 +60,21 @@ public class MarioHealth : MonoBehaviour, IRestartGameElement
             yield return new WaitForSeconds(m_DelayBetweenLife);
         }
         
+    }
+
+    IEnumerator IncreaseHealthBar(int hp)
+    {
+        int l_LifesToAdd = m_Health + hp;
+        for (int i = 0; i < l_LifesToAdd; i++)
+        {
+            m_HealthBarImage.fillAmount += 1f / m_MaxHealth;
+            m_HealthBarImage.color = m_HealthBarColour.Evaluate(m_HealthBarImage.fillAmount);
+            m_HealthBarBackgroundOverlay.color = m_HealthBarColour.Evaluate(m_HealthBarImage.fillAmount);
+            m_HealthBarBackgroundOverlay.color = new Color(m_HealthBarBackgroundOverlay.color.r, m_HealthBarBackgroundOverlay.color.g, m_HealthBarBackgroundOverlay.color.b, m_BackgroundAlpha * m_HealthBarImage.fillAmount);
+            if(m_Health<m_MaxHealth)m_Health += 1;
+            yield return new WaitForSeconds(m_DelayBetweenLife);
+        }
+
     }
 
     void SubstractDamage()
@@ -114,7 +135,6 @@ public class MarioHealth : MonoBehaviour, IRestartGameElement
     {
         if (collider.tag == "Deadzone")
         {
-            Debug.Log("Entra aqui");
             TakeDamage(70);
         }
     }

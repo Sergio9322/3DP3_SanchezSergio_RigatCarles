@@ -29,10 +29,10 @@ public class AnimatorEventConsumer : MonoBehaviour
 
     void Step(int foot)
     {
-        float pitch = Random.Range(stepsAudioSource.pitch - m_PitchRange/2, stepsAudioSource.pitch + m_PitchRange/2);
-        float volume = Random.Range(stepsAudioSource.volume - m_VolumeRange/2, stepsAudioSource.volume + m_VolumeRange/2);
-        stepsAudioSource.pitch = pitch;
-        stepsAudioSource.volume = volume;
+        //float pitch = Random.Range(stepsAudioSource.pitch - m_PitchRange/2, stepsAudioSource.pitch + m_PitchRange/2);
+        //float volume = Random.Range(stepsAudioSource.volume - m_VolumeRange/2, stepsAudioSource.volume + m_VolumeRange/2);
+        //stepsAudioSource.pitch = pitch;
+        //stepsAudioSource.volume = volume;
         AudioClip clip = GetRandomStepClip();
         stepsAudioSource.PlayOneShot(clip);
     }

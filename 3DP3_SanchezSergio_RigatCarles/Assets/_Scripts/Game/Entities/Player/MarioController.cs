@@ -40,8 +40,6 @@ public class MarioController : MonoBehaviour, IRestartGameElement
     [SerializeField] KeyCode runKey;
     [SerializeField] KeyCode jumpKey;
 
-    [Header("Audio")]
-    [SerializeField] AudioSource audioSource;
 
     [Header("Colliders")]
     public Collider m_LeftHandCollider;
@@ -81,7 +79,7 @@ public class MarioController : MonoBehaviour, IRestartGameElement
     [Header("Wall jump")]
     [SerializeField] float slidingSpeed;
     bool canWallJump;
-    [SerializeField] float noInputTime = 600f;
+    [SerializeField] float noInputTime = 6f;
 
 
     void Awake()
@@ -165,11 +163,12 @@ public class MarioController : MonoBehaviour, IRestartGameElement
             if (MustStartComboPunch())
             {
                 SetComboPunch(TPunchType.RIGHT_HAND);
-            }
-            else
+            }else
                 NextComboPunch();
         }
         UpdateWaitingCounter();
+
+        
 
         //Check Input
         //Movement: CameraDir, Input, Speed, deltaTime
@@ -180,9 +179,9 @@ public class MarioController : MonoBehaviour, IRestartGameElement
         right.y = 0.0f;
         right = right.normalized;
         Vector3 movement = Vector3.zero;
-        if (Input.GetKey(fwKey) )
+        if (Input.GetKey(fwKey))
             movement += fw;
-        else if (Input.GetKey(backKey) )
+        else if (Input.GetKey(backKey))
             movement -= fw;
         if (Input.GetKey(rightKey) )
             movement += right;
@@ -243,13 +242,12 @@ public class MarioController : MonoBehaviour, IRestartGameElement
 
     private void checkFrontCollision()
     {
-        bool facingDirection = Physics.Raycast(new Ray(new Vector3(transform.position.x, transform.position.y + 1.5f, transform.position.z), transform.forward), 0.7f);
+        bool facingDirection = Physics.Raycast(new Ray(new Vector3(transform.position.x, transform.position.y + 1.5f, transform.position.z), transform.forward), 0.5f);
         if (facingDirection && !onGround)
         {
             m_VerticalSpeed = slidingSpeed;
             canWallJump = true;
             StartCoroutine(DisableInput());
-            animator.SetTrigger("slide");
         } else canWallJump = false;
     }
 
@@ -259,7 +257,6 @@ public class MarioController : MonoBehaviour, IRestartGameElement
         yield return new WaitForSeconds(noInputTime);
         canWallJump = false;
         enabledInput = true;
-
     }
 
     private void WallJump()
@@ -275,7 +272,7 @@ public class MarioController : MonoBehaviour, IRestartGameElement
             yield return new WaitForEndOfFrame();
             charController.Move(transform.forward * Time.deltaTime * 2f);
         }
-        enabledInput = false;
+        enabledInput = true;
         canWallJump = false;
     }
 
@@ -322,10 +319,7 @@ public class MarioController : MonoBehaviour, IRestartGameElement
     {
         if (l_Goomba.TryGetDamage())
         {
-            // TODO: Take damage
             m_MarioHealth.TakeDamage(l_Goomba.GetDamageAmount());
-            Debug.Log("Take damage");
-            // TODO: moure Goomba i Mario en (posGoomba - posMario).normalized * m_HitVelocity * Time.deltaTime;´
             Vector3 l_Direction = (l_Goomba.transform.position - transform.position).normalized;
             if (l_Goomba.TryGetComponent(out Impulsable l_GoombaImpulsable))
                 l_GoombaImpulsable.GetImpulsed(l_Direction);

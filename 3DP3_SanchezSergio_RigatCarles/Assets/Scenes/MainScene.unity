@@ -1237,7 +1237,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400098, guid: 2c49a169fa02b2545921fcc829011ecb, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 24.73
+      value: 22.68
       objectReference: {fileID: 0}
     - target: {fileID: 400098, guid: 2c49a169fa02b2545921fcc829011ecb, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1245,7 +1245,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400098, guid: 2c49a169fa02b2545921fcc829011ecb, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 28.26
+      value: 27.94
       objectReference: {fileID: 0}
     - target: {fileID: 400098, guid: 2c49a169fa02b2545921fcc829011ecb, type: 3}
       propertyPath: m_LocalRotation.w
@@ -7629,7 +7629,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.66
+      scalar: 0.33
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -13152,13 +13152,12 @@ MonoBehaviour:
   leftKey: 97
   runKey: 304
   jumpKey: 32
-  audioSource: {fileID: 0}
   m_LeftHandCollider: {fileID: 679502107}
   m_RightHandCollider: {fileID: 573318265}
   m_KickCollider: {fileID: 2015142152}
   m_PunchComboTime: 3
   m_ElevatorMaxAngleAllowed: 10
-  m_KillGoombaMaxAngleAllowed: 30
+  m_KillGoombaMaxAngleAllowed: 70
   m_VerticalKillSpeed: 5
   secsToSpecialIdle: 10
   secsToCameraComeback: 5
@@ -13873,6 +13872,14 @@ PrefabInstance:
     - target: {fileID: 7048145255007490125, guid: 5aab010d03cb6ba408cbaec886d67a8e, type: 3}
       propertyPath: timeToAttack
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8693289978302910506, guid: 5aab010d03cb6ba408cbaec886d67a8e, type: 3}
+      propertyPath: MaxDistance
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8693289978302910506, guid: 5aab010d03cb6ba408cbaec886d67a8e, type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8730048488574104621, guid: 5aab010d03cb6ba408cbaec886d67a8e, type: 3}
       propertyPath: m_HitDuration

@@ -21,8 +21,8 @@ public class Heart : MonoBehaviour, IRestartGameElement, IPickable
     {
         if (!m_HasStartedDeactivation)
         {
-            //m_HeartAudioSource.Play();
-            //m_HeartParticleSystem.Play();
+            m_HeartAudioSource.Play();
+            m_HeartParticleSystem.Play();
             StartCoroutine(Deactivate());
             marioh.GetHp(hpGiven);
         }

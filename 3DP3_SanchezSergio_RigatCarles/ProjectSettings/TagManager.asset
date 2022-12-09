@@ -15,6 +15,7 @@ TagManager:
   - Pickable
   - HealthBar
   - Deadzone
+  - Heart
   layers:
   - Default
   - TransparentFX

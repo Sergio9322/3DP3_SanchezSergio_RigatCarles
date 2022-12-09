@@ -7,6 +7,7 @@ public class GameOverPanel : MonoBehaviour
 {
     [SerializeField] GameObject m_BowserMask, m_BowserImage, m_CircleImage, m_StarMask;
     float m_WaitingTimeBetweenMasks = 4f;
+    [SerializeField] AudioSource m_BowserAudioSource;
 
     void Start()
     {
@@ -26,7 +27,7 @@ public class GameOverPanel : MonoBehaviour
         StartCoroutine(FinishPanelCoroutine());
         GameController.GetGameController().GameOverGame();
 
-        // TODO: Pantalla Final de Cara - Restart o continuar
+        m_BowserAudioSource.Play();
     }
 
     IEnumerator FinishPanelCoroutine()

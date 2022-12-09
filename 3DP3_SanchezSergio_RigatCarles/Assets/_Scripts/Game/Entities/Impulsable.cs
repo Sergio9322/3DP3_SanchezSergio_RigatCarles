@@ -8,6 +8,7 @@ public class Impulsable : MonoBehaviour
     [SerializeField] float m_HitForce = 10f;
     NavMeshAgent m_NavMeshAgent;
     MarioController m_MarioController;
+    [SerializeField] AudioSource m_AudioSource;
 
     void Start()
     {
@@ -21,6 +22,7 @@ public class Impulsable : MonoBehaviour
 
     private IEnumerator Impulse(Vector3 l_Direction)
     {
+        if(m_AudioSource!=null) m_AudioSource.Play();
         DisableOtherMovements();
         float l_Time = 0.0f;
         float l_Gravity = 6f;

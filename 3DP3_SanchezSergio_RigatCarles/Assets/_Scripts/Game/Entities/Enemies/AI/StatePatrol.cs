@@ -22,6 +22,8 @@ public class StatePatrol : MonoBehaviour, IStateAI
     Animator animator;
     bool initialised = false;
 
+    [SerializeField] AudioSource m_PatrolAudioSource;
+
     void Awake()
     {
         agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
@@ -37,7 +39,8 @@ public class StatePatrol : MonoBehaviour, IStateAI
             if (!initialised) Initialise();
             UpdateState();
             ChangeState();
-        }
+            if (!m_PatrolAudioSource.isPlaying) m_PatrolAudioSource.Play();
+        } else m_PatrolAudioSource.Stop();
     }
 
     void Initialise()

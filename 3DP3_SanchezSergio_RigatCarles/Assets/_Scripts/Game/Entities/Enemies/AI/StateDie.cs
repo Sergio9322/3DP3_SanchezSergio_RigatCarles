@@ -12,9 +12,13 @@ public class StateDie : MonoBehaviour, IStateAI, IRestartGameElement
     Animator animator;
     bool initialised = false;
 
-    public float m_DeadTime = 0.5f;
+    public float m_DeadTime = 2f;
     public float m_TimeHitImpulseAndDie = 1f;
     bool m_Alive = true;
+
+    [SerializeField] ParticleSystem m_DieParticles;
+    [SerializeField] AudioSource m_AudioSource;
+    [SerializeField] AudioClip m_DieAudioClip;
 
     void Awake()
     {
@@ -61,12 +65,17 @@ public class StateDie : MonoBehaviour, IStateAI, IRestartGameElement
 
     IEnumerator KillJumpingCoroutine()
     {
-        transform.localScale = new Vector3(1.0f, 0.1f, 1.0f);
+        float l_ScaleSpeed = 0.05f;
+        while(transform.localScale.y > 0.1f)
+        {
+            transform.localScale = new Vector3(1.0f, transform.localScale.y - l_ScaleSpeed, 1.0f);
+            yield return null;
+        }
         yield return new WaitForSeconds(m_DeadTime);
-        gameObject.SetActive(false);
         m_Alive = false;
-        // TODO: Animar amb el temps
-        // TODO: Particles
+        m_DieParticles.Play();
+        m_AudioSource.PlayOneShot(m_DieAudioClip);
+        gameObject.SetActive(false);
     }
 
     IEnumerator KillHittingCoroutine()
@@ -79,9 +88,11 @@ public class StateDie : MonoBehaviour, IStateAI, IRestartGameElement
             transform.localScale = new Vector3(transform.localScale.x - l_ScaleSpeed , transform.localScale.y - l_ScaleSpeed, transform.localScale.z - l_ScaleSpeed);
             yield return null;
         }
+        yield return new WaitForSeconds(m_DeadTime);
         gameObject.SetActive(false);
         m_Alive = false;
-        // TODO: Particles
+        m_DieParticles.Play();
+        m_AudioSource.PlayOneShot(m_DieAudioClip);
     }
 
     void ImpulseFarAway()

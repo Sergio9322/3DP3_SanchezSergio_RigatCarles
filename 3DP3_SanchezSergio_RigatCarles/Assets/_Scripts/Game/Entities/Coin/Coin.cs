@@ -6,6 +6,9 @@ public class Coin : MonoBehaviour, IRestartGameElement, IPickable
 {
     bool m_HasStartedDeactivation = false;
     float m_DeactivationSpeed = 4.0f;
+    float m_TimeToDeactivate = 1f;
+    [SerializeField] AudioSource m_CoinAudioSource;
+    [SerializeField] ParticleSystem m_CoinParticleSystem;
     void Start()
     {
         GameController.GetGameController().AddRestartGameElement(this);
@@ -15,6 +18,8 @@ public class Coin : MonoBehaviour, IRestartGameElement, IPickable
     {
         if (!m_HasStartedDeactivation)
         {
+            m_CoinAudioSource.Play();
+            m_CoinParticleSystem.Play();
             StartCoroutine(Deactivate());
             GameController.GetGameController().GetDependencyInjector().GetDependency<IScoreManager>().addPoints(1);
         }
@@ -30,7 +35,7 @@ public class Coin : MonoBehaviour, IRestartGameElement, IPickable
             transform.localScale = new Vector3(l_Scale, l_Scale, l_Scale);
             yield return null;
         }
-        
+        yield return new WaitForSeconds(m_TimeToDeactivate);
         gameObject.SetActive(false);
         m_HasStartedDeactivation = false;
     }
